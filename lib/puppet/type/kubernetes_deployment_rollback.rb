@@ -16,9 +16,9 @@ Puppet::Type.newtype(:kubernetes_deployment_rollback) do
   validate do
     required_properties = [
     
-      name,
+      :name,
     
-      rollback_to,
+      :rollback_to,
     
     ]
     required_properties.each do |property|

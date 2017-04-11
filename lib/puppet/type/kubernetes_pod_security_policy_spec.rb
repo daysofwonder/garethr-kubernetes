@@ -16,13 +16,13 @@ Puppet::Type.newtype(:kubernetes_pod_security_policy_spec) do
   validate do
     required_properties = [
     
-      se_linux,
+      :se_linux,
     
-      run_as_user,
+      :run_as_user,
     
-      supplemental_groups,
+      :supplemental_groups,
     
-      fs_group,
+      :fs_group,
     
     ]
     required_properties.each do |property|

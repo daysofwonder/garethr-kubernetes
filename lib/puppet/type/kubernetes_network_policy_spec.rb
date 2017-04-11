@@ -14,7 +14,7 @@ Puppet::Type.newtype(:kubernetes_network_policy_spec) do
   validate do
     required_properties = [
     
-      pod_selector,
+      :pod_selector,
     
     ]
     required_properties.each do |property|
