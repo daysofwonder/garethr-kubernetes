@@ -62,11 +62,23 @@ module PuppetX
           add_headers(client)
         end
 
+        def self.rbac_v1beta1_client
+          client = ::Kubeclient::Client.new(
+            "#{config.context.api_endpoint}/apis/rbac.authorization.k8s.io",
+            "#{config.context.api_version}beta1",
+            ssl_options: config.context.ssl_options,
+            auth_options: config.context.auth_options,
+          )
+          add_headers(client)
+        end
+
         def self.call(method, *object)
           if v1_client.respond_to?(method)
             v1_client.send(method, *object)
-          else
+          elsif  beta_client.respond_to?(method)
             beta_client.send(method, *object)
+          else
+            rbac_v1beta1_client.send(method, *object)
           end
         end
 
