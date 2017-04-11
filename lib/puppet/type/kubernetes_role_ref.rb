@@ -16,11 +16,11 @@ Puppet::Type.newtype(:kubernetes_role_ref) do
   validate do
     required_properties = [
     
-      api_group,
+      :api_group,
     
-      kind,
+      :kind,
     
-      name,
+      :name,
     
     ]
     required_properties.each do |property|

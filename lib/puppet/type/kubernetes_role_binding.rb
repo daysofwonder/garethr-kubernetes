@@ -16,9 +16,9 @@ Puppet::Type.newtype(:kubernetes_role_binding) do
   validate do
     required_properties = [
     
-      subjects,
+      :subjects,
     
-      role_ref,
+      :role_ref,
     
     ]
     required_properties.each do |property|

@@ -16,7 +16,7 @@ Puppet::Type.newtype(:kubernetes_role) do
   validate do
     required_properties = [
     
-      rules,
+      :rules,
     
     ]
     required_properties.each do |property|

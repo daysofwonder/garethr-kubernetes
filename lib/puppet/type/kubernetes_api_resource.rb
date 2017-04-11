@@ -16,13 +16,13 @@ Puppet::Type.newtype(:kubernetes_api_resource) do
   validate do
     required_properties = [
     
-      name,
+      :name,
     
-      namespaced,
+      :namespaced,
     
-      kind,
+      :kind,
     
-      verbs,
+      :verbs,
     
     ]
     required_properties.each do |property|
