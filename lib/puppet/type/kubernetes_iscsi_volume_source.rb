@@ -16,11 +16,11 @@ Puppet::Type.newtype(:kubernetes_iscsi_volume_source) do
   validate do
     required_properties = [
     
-      target_portal,
+      :target_portal,
     
-      iqn,
+      :iqn,
     
-      lun,
+      :lun,
     
     ]
     required_properties.each do |property|
