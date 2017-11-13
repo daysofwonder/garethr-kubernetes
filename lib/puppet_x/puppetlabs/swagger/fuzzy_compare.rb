@@ -1,4 +1,4 @@
-require_relative 'symbolize_keys'
+require_relative 'swagger_symbolize_keys'
 require_relative 'fixnumify'
 
 
@@ -7,8 +7,8 @@ module PuppetX
     module Swagger
       class Utils
         def self.fuzzy_compare(existing, intended)
-          normalized_is = existing.symbolize_keys.fixnumify
-          normalized_should = intended.symbolize_keys.fixnumify
+          normalized_is = existing.swagger_symbolize_keys.fixnumify
+          normalized_should = intended.swagger_symbolize_keys.fixnumify
           do_compare(normalized_should, normalized_is)
         end
 
