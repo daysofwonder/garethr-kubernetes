@@ -15,18 +15,17 @@ module PuppetX
         private
         def self.do_compare(normalized_should, normalized_is)
           klass = normalized_should.class
-          if [String, Fixnum, TrueClass, FalseClass].include? klass
+          if [String, Fixnum, TrueClass, FalseClass, NilClass].include? klass
             normalized_should.to_s == normalized_is.to_s
           elsif klass == Array
             if normalized_is.class != Array || normalized_should.length != normalized_is.length
               false
             else
               # We want to check that both arrays have the same elements regardless of their order
-              should_matched = Array.new(normalized_should.length)
               tests = normalized_is.collect do |is_value|
-                normalized_should.lazy.each_with_index.collect do |should_value, i|
-                  should_matched[i] = should_matched[i] || do_compare(should_value, is_value)
-                end.any?
+                normalized_should.lazy.reduce(false) do |m, should_value|
+                  m || do_compare(should_value, is_value)
+                end
               end
               tests.flatten.compact.all?
             end
