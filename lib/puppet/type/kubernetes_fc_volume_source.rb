@@ -16,9 +16,9 @@ Puppet::Type.newtype(:kubernetes_fc_volume_source) do
   validate do
     required_properties = [
     
-      target_ww_ns,
+      :target_ww_ns,
     
-      lun,
+      :lun,
     
     ]
     required_properties.each do |property|

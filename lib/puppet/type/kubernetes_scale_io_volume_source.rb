@@ -16,11 +16,11 @@ Puppet::Type.newtype(:kubernetes_scale_io_volume_source) do
   validate do
     required_properties = [
     
-      gateway,
+      :gateway,
     
-      system,
+      :system,
     
-      secret_ref,
+      :secret_ref,
     
     ]
     required_properties.each do |property|

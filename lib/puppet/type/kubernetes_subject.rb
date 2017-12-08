@@ -16,9 +16,9 @@ Puppet::Type.newtype(:kubernetes_subject) do
   validate do
     required_properties = [
     
-      kind,
+      :kind,
     
-      name,
+      :name,
     
     ]
     required_properties.each do |property|

@@ -16,7 +16,7 @@ Puppet::Type.newtype(:kubernetes_pod_spec) do
   validate do
     required_properties = [
     
-      containers,
+      :containers,
     
     ]
     required_properties.each do |property|

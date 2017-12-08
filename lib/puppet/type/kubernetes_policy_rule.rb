@@ -16,7 +16,7 @@ Puppet::Type.newtype(:kubernetes_policy_rule) do
   validate do
     required_properties = [
     
-      verbs,
+      :verbs,
     
     ]
     required_properties.each do |property|

@@ -16,9 +16,9 @@ Puppet::Type.newtype(:kubernetes_taint) do
   validate do
     required_properties = [
     
-      key,
+      :key,
     
-      effect,
+      :effect,
     
     ]
     required_properties.each do |property|

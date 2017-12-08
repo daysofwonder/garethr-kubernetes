@@ -16,9 +16,9 @@ Puppet::Type.newtype(:kubernetes_volume_mount) do
   validate do
     required_properties = [
     
-      name,
+      :name,
     
-      mount_path,
+      :mount_path,
     
     ]
     required_properties.each do |property|
