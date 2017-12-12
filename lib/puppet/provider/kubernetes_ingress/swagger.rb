@@ -36,7 +36,7 @@ Puppet::Type.type(:kubernetes_ingress).provide(:swagger, :parent => PuppetX::Pup
 
   def create
     Puppet.info("Creating kubernetes_ingress #{name}")
-    create_instance_of('ingresse', name, build_params)
+    create_instance_of('ingress', name, build_params)
   end
 
   def flush
@@ -55,7 +55,7 @@ Puppet::Type.type(:kubernetes_ingress).provide(:swagger, :parent => PuppetX::Pup
 
   private
   def self.list_instances
-    list_instances_of('ingress')
+    list_instances_of('ingresse')
   end
 
   def build_params
