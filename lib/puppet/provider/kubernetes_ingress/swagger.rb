@@ -13,30 +13,30 @@ Puppet::Type.type(:kubernetes_ingress).provide(:swagger, :parent => PuppetX::Pup
     {
     ensure: :present,
     name: instance.metadata.name,
-    
-      
-    
-      
-    
-      
+
+
+
+
+
+
         metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-      
-    
-      
+
+
+
         spec: instance.spec.respond_to?(:to_hash) ? instance.spec.to_hash : instance.spec,
-      
-    
-      
+
+
+
         status: instance.status.respond_to?(:to_hash) ? instance.status.to_hash : instance.status,
-      
-    
+
+
     object: instance,
     }
   end
 
   def create
     Puppet.info("Creating kubernetes_ingress #{name}")
-    create_instance_of('ingress', name, build_params)
+    create_instance_of('ingresse', name, build_params)
   end
 
   def flush
@@ -60,23 +60,23 @@ Puppet::Type.type(:kubernetes_ingress).provide(:swagger, :parent => PuppetX::Pup
 
   def build_params
     params = {
-    
-      
-    
-      
-    
-      
+
+
+
+
+
+
         metadata: resource[:metadata],
-      
-    
-      
+
+
+
         spec: resource[:spec],
-      
-    
-      
+
+
+
         status: resource[:status],
-      
-    
+
+
     }
     params.delete_if { |key, value| value.nil? }
     params
