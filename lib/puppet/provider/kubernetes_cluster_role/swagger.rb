@@ -19,15 +19,11 @@ Puppet::Type.type(:kubernetes_cluster_role).provide(:swagger, :parent => PuppetX
       
     
       
-        
-          metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-        
+        metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
       
     
       
-        
-          rules: instance.rules,
-        
+        rules: instance.rules.respond_to?(:to_hash) ? instance.rules.to_hash : instance.rules,
       
     
     object: instance,

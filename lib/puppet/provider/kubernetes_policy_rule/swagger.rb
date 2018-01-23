@@ -15,33 +15,23 @@ Puppet::Type.type(:kubernetes_policy_rule).provide(:swagger, :parent => PuppetX:
     name: instance.metadata.name,
     
       
-        
-          verbs: instance.verbs,
-        
+        verbs: instance.verbs.respond_to?(:to_hash) ? instance.verbs.to_hash : instance.verbs,
       
     
       
-        
-          api_groups: instance.apiGroups,
-        
+        api_groups: instance.apiGroups.respond_to?(:to_hash) ? instance.apiGroups.to_hash : instance.apiGroups,
       
     
       
-        
-          resources: instance.resources,
-        
+        resources: instance.resources.respond_to?(:to_hash) ? instance.resources.to_hash : instance.resources,
       
     
       
-        
-          resource_names: instance.resourceNames,
-        
+        resource_names: instance.resourceNames.respond_to?(:to_hash) ? instance.resourceNames.to_hash : instance.resourceNames,
       
     
       
-        
-          non_resource_ur_ls: instance.nonResourceURLs,
-        
+        non_resource_ur_ls: instance.nonResourceURLs.respond_to?(:to_hash) ? instance.nonResourceURLs.to_hash : instance.nonResourceURLs,
       
     
     object: instance,

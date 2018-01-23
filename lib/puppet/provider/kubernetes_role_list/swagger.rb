@@ -19,15 +19,11 @@ Puppet::Type.type(:kubernetes_role_list).provide(:swagger, :parent => PuppetX::P
       
     
       
-        
-          metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-        
+        metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
       
     
       
-        
-          items: instance.items,
-        
+        items: instance.items.respond_to?(:to_hash) ? instance.items.to_hash : instance.items,
       
     
     object: instance,
