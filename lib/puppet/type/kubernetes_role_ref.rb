@@ -37,7 +37,9 @@ Puppet::Type.newtype(:kubernetes_role_ref) do
   end
   
     
+      
       newproperty(:api_group) do
+      
         
         desc "APIGroup is the group for the resource being referenced"
         
@@ -50,7 +52,9 @@ Puppet::Type.newtype(:kubernetes_role_ref) do
     
   
     
+      
       newproperty(:name) do
+      
         
         desc "Name is the name of resource being referenced"
         

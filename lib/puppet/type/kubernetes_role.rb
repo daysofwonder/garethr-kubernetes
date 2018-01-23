@@ -37,7 +37,9 @@ Puppet::Type.newtype(:kubernetes_role) do
     
   
     
+      
       newproperty(:metadata) do
+      
         
         desc "Standard object's metadata."
         
@@ -48,7 +50,9 @@ Puppet::Type.newtype(:kubernetes_role) do
     
   
     
-      newproperty(:rules) do
+      
+      newproperty(:rules, :array_matching => :all) do
+      
         
         desc "Rules holds all the PolicyRules for this Role"
         

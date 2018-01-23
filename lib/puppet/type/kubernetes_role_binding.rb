@@ -39,7 +39,9 @@ Puppet::Type.newtype(:kubernetes_role_binding) do
     
   
     
+      
       newproperty(:metadata) do
+      
         
         desc "Standard object's metadata."
         
@@ -50,7 +52,9 @@ Puppet::Type.newtype(:kubernetes_role_binding) do
     
   
     
-      newproperty(:subjects) do
+      
+      newproperty(:subjects, :array_matching => :all) do
+      
         
         desc "Subjects holds references to the objects the role applies to."
         
@@ -61,7 +65,9 @@ Puppet::Type.newtype(:kubernetes_role_binding) do
     
   
     
+      
       newproperty(:role_ref) do
+      
         
         desc "RoleRef can reference a Role in the current namespace or a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error."
         

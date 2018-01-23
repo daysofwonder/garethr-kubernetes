@@ -37,7 +37,9 @@ Puppet::Type.newtype(:kubernetes_cluster_role_list) do
     
   
     
+      
       newproperty(:metadata) do
+      
         
         desc "Standard object's metadata."
         
@@ -48,7 +50,9 @@ Puppet::Type.newtype(:kubernetes_cluster_role_list) do
     
   
     
-      newproperty(:items) do
+      
+      newproperty(:items, :array_matching => :all) do
+      
         
         desc "Items is a list of ClusterRoles"
         

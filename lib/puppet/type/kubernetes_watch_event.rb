@@ -33,7 +33,9 @@ Puppet::Type.newtype(:kubernetes_watch_event) do
   end
   
     
+      
       newproperty(:type) do
+      
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -42,7 +44,9 @@ Puppet::Type.newtype(:kubernetes_watch_event) do
     
   
     
+      
       newproperty(:object) do
+      
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
