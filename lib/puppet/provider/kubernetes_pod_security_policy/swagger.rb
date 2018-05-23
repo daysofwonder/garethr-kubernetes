@@ -55,7 +55,7 @@ Puppet::Type.type(:kubernetes_pod_security_policy).provide(:swagger, :parent => 
 
   private
   def self.list_instances
-    list_instances_of('pod_security_policy')
+    list_instances_of('pod_security_policie')
   end
 
   def build_params
