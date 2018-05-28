@@ -104,7 +104,7 @@ module PuppetX
             if index == (path.size - 1)
               obj.send("#{attr}=", value)
             else
-              if attr.class == Fixnum
+              if attr.class == Integer
                 if obj.send(:at, attr).nil?
                   obj.append(Object::const_get("Kubeclient::#{klass}").new)
                 end
@@ -121,7 +121,7 @@ module PuppetX
           input.each do |key,value|
             if value.respond_to? :each
               value.each do |inner_key,inner_value|
-                if [Fixnum, String].include? inner_value.class
+                if [Integer, String].include? inner_value.class
                   data << [[key,inner_key], inner_value]
                 end
                 if inner_value.class == Array
