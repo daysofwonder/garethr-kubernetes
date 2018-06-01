@@ -15,7 +15,7 @@ module PuppetX
         private
         def self.do_compare(normalized_should, normalized_is)
           klass = normalized_should.class
-          if [String, Integer, TrueClass, FalseClass, NilClass].include? klass
+          if [String, Integer, Fixnum, TrueClass, FalseClass, NilClass].include? klass
             normalized_should.to_s == normalized_is.to_s
           elsif klass == Array
             if normalized_is.class != Array || normalized_should.length != normalized_is.length
