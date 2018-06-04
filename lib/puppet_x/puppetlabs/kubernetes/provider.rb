@@ -112,7 +112,7 @@ module PuppetX
           end
 
           def get(attr)
-            if attr.is_a?(Fixnum)
+            if attr.is_a?(Numeric)
               if @object.nil?
                 @object = []
                 @parent_setter.call(@object)
