@@ -99,19 +99,50 @@ module PuppetX
           call("create_#{type}", make_object(type, name, params))
         end
 
-        def ensure_value_at_path(object, klass, path, value)
-          path.each_with_index.inject(object) { |obj, (attr, index)|
-            if index == (path.size - 1)
-              obj.send("#{attr}=", value)
-            else
-              if attr.class == Integer
-                if obj.send(:at, attr).nil?
-                  obj.append(Object::const_get("Kubeclient::#{klass}").new)
-                end
-                obj.send(:at, attr)
-              else
-                obj.send(attr)
+        class ObjectSetter
+          def initialize(obj, klass)
+            @object = obj
+            @klass = klass
+          end
+
+          def set(attr, value)
+            @parent_setter = create_parent_setter(@object, attr)
+            @object = @object.send("#{attr}=", value)
+            self
+          end
+
+          def get(attr)
+            if attr.is_a?(Fixnum)
+              if @object.nil?
+                @object = []
+                @parent_setter.call(@object)
               end
+              if @object.send(:at, attr).nil?
+                @object << RecursiveOpenStruct.new(nil, recurse_over_arrays: true)
+              end
+              @parent_setter = create_parent_setter(@object, attr)
+              @object = @object.send(:at, attr)
+            else
+              @parent_setter = create_parent_setter(@object, attr)
+              @object = @object.send(attr)
+            end
+            self
+          end
+
+          def create_parent_setter(obj, attr)
+            lambda do |value|
+              obj.send("#{attr}=", value)
+            end
+          end
+        end
+
+
+        def ensure_value_at_path(object, klass, path, value)
+          path.each_with_index.inject(ObjectSetter.new(object, klass)) { |setter, (attr, index)|
+            if index == (path.size - 1)
+              setter.set(attr, value)
+            else
+              setter.get(attr)
             end
           }
         end
