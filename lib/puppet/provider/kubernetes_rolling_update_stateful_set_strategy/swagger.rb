@@ -15,7 +15,9 @@ Puppet::Type.type(:kubernetes_rolling_update_stateful_set_strategy).provide(:swa
     name: instance.metadata.name,
     
       
+      
         partition: instance.partition.respond_to?(:to_hash) ? instance.partition.to_hash : instance.partition,
+      
       
     
     object: instance,

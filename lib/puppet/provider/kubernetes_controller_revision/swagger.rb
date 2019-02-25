@@ -19,15 +19,21 @@ Puppet::Type.type(:kubernetes_controller_revision).provide(:swagger, :parent => 
       
     
       
+      
         metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
       
+      
     
+      
       
         data: instance.data.respond_to?(:to_hash) ? instance.data.to_hash : instance.data,
       
+      
     
       
+      
         revision: instance.revision.respond_to?(:to_hash) ? instance.revision.to_hash : instance.revision,
+      
       
     
     object: instance,

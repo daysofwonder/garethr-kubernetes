@@ -15,15 +15,21 @@ Puppet::Type.type(:kubernetes_service_account_token_projection).provide(:swagger
     name: instance.metadata.name,
     
       
+      
         audience: instance.audience.respond_to?(:to_hash) ? instance.audience.to_hash : instance.audience,
       
+      
     
+      
       
         expiration_seconds: instance.expirationSeconds.respond_to?(:to_hash) ? instance.expirationSeconds.to_hash : instance.expirationSeconds,
       
+      
     
       
+      
         path: instance.path.respond_to?(:to_hash) ? instance.path.to_hash : instance.path,
+      
       
     
     object: instance,

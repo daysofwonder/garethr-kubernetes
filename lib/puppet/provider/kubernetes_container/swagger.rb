@@ -15,87 +15,129 @@ Puppet::Type.type(:kubernetes_container).provide(:swagger, :parent => PuppetX::P
     name: instance.metadata.name,
     
       
+      
         name: instance.name.respond_to?(:to_hash) ? instance.name.to_hash : instance.name,
       
+      
     
+      
       
         image: instance.image.respond_to?(:to_hash) ? instance.image.to_hash : instance.image,
       
-    
-      
-        command: instance.command.respond_to?(:to_hash) ? instance.command.to_hash : instance.command,
       
     
       
-        args: instance.args.respond_to?(:to_hash) ? instance.args.to_hash : instance.args,
+      
+        command: hash_arrays(command),
+      
       
     
+      
+      
+        args: hash_arrays(args),
+      
+      
+    
+      
       
         working_dir: instance.workingDir.respond_to?(:to_hash) ? instance.workingDir.to_hash : instance.workingDir,
       
-    
-      
-        ports: instance.ports.respond_to?(:to_hash) ? instance.ports.to_hash : instance.ports,
       
     
       
-        env_from: instance.envFrom.respond_to?(:to_hash) ? instance.envFrom.to_hash : instance.envFrom,
+      
+        ports: hash_arrays(ports),
+      
       
     
       
-        env: instance.env.respond_to?(:to_hash) ? instance.env.to_hash : instance.env,
+      
+        env_from: hash_arrays(envFrom),
+      
       
     
+      
+      
+        env: hash_arrays(env),
+      
+      
+    
+      
       
         resources: instance.resources.respond_to?(:to_hash) ? instance.resources.to_hash : instance.resources,
       
-    
-      
-        volume_mounts: instance.volumeMounts.respond_to?(:to_hash) ? instance.volumeMounts.to_hash : instance.volumeMounts,
       
     
       
-        volume_devices: instance.volumeDevices.respond_to?(:to_hash) ? instance.volumeDevices.to_hash : instance.volumeDevices,
+      
+        volume_mounts: hash_arrays(volumeMounts),
+      
       
     
+      
+      
+        volume_devices: hash_arrays(volumeDevices),
+      
+      
+    
+      
       
         liveness_probe: instance.livenessProbe.respond_to?(:to_hash) ? instance.livenessProbe.to_hash : instance.livenessProbe,
       
+      
     
+      
       
         readiness_probe: instance.readinessProbe.respond_to?(:to_hash) ? instance.readinessProbe.to_hash : instance.readinessProbe,
       
+      
     
+      
       
         lifecycle: instance.lifecycle.respond_to?(:to_hash) ? instance.lifecycle.to_hash : instance.lifecycle,
       
+      
     
+      
       
         termination_message_path: instance.terminationMessagePath.respond_to?(:to_hash) ? instance.terminationMessagePath.to_hash : instance.terminationMessagePath,
       
+      
     
+      
       
         termination_message_policy: instance.terminationMessagePolicy.respond_to?(:to_hash) ? instance.terminationMessagePolicy.to_hash : instance.terminationMessagePolicy,
       
+      
     
+      
       
         image_pull_policy: instance.imagePullPolicy.respond_to?(:to_hash) ? instance.imagePullPolicy.to_hash : instance.imagePullPolicy,
       
+      
     
+      
       
         security_context: instance.securityContext.respond_to?(:to_hash) ? instance.securityContext.to_hash : instance.securityContext,
       
+      
     
+      
       
         stdin: instance.stdin.respond_to?(:to_hash) ? instance.stdin.to_hash : instance.stdin,
       
+      
     
+      
       
         stdin_once: instance.stdinOnce.respond_to?(:to_hash) ? instance.stdinOnce.to_hash : instance.stdinOnce,
       
+      
     
       
+      
         tty: instance.tty.respond_to?(:to_hash) ? instance.tty.to_hash : instance.tty,
+      
       
     
     object: instance,

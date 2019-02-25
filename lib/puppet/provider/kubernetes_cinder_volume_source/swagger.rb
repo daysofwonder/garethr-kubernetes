@@ -15,19 +15,27 @@ Puppet::Type.type(:kubernetes_cinder_volume_source).provide(:swagger, :parent =>
     name: instance.metadata.name,
     
       
+      
         volume_id: instance.volumeID.respond_to?(:to_hash) ? instance.volumeID.to_hash : instance.volumeID,
       
+      
     
+      
       
         fs_type: instance.fsType.respond_to?(:to_hash) ? instance.fsType.to_hash : instance.fsType,
       
+      
     
+      
       
         read_only: instance.readOnly.respond_to?(:to_hash) ? instance.readOnly.to_hash : instance.readOnly,
       
+      
     
       
+      
         secret_ref: instance.secretRef.respond_to?(:to_hash) ? instance.secretRef.to_hash : instance.secretRef,
+      
       
     
     object: instance,

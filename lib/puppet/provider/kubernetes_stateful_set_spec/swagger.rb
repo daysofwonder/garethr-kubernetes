@@ -15,35 +15,51 @@ Puppet::Type.type(:kubernetes_stateful_set_spec).provide(:swagger, :parent => Pu
     name: instance.metadata.name,
     
       
+      
         replicas: instance.replicas.respond_to?(:to_hash) ? instance.replicas.to_hash : instance.replicas,
       
+      
     
+      
       
         selector: instance.selector.respond_to?(:to_hash) ? instance.selector.to_hash : instance.selector,
       
+      
     
+      
       
         template: instance.template.respond_to?(:to_hash) ? instance.template.to_hash : instance.template,
       
-    
-      
-        volume_claim_templates: instance.volumeClaimTemplates.respond_to?(:to_hash) ? instance.volumeClaimTemplates.to_hash : instance.volumeClaimTemplates,
       
     
+      
+      
+        volume_claim_templates: hash_arrays(volumeClaimTemplates),
+      
+      
+    
+      
       
         service_name: instance.serviceName.respond_to?(:to_hash) ? instance.serviceName.to_hash : instance.serviceName,
       
+      
     
+      
       
         pod_management_policy: instance.podManagementPolicy.respond_to?(:to_hash) ? instance.podManagementPolicy.to_hash : instance.podManagementPolicy,
       
+      
     
+      
       
         update_strategy: instance.updateStrategy.respond_to?(:to_hash) ? instance.updateStrategy.to_hash : instance.updateStrategy,
       
+      
     
       
+      
         revision_history_limit: instance.revisionHistoryLimit.respond_to?(:to_hash) ? instance.revisionHistoryLimit.to_hash : instance.revisionHistoryLimit,
+      
       
     
     object: instance,

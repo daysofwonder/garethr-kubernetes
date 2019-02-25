@@ -15,11 +15,15 @@ Puppet::Type.type(:kubernetes_volume_device).provide(:swagger, :parent => Puppet
     name: instance.metadata.name,
     
       
+      
         name: instance.name.respond_to?(:to_hash) ? instance.name.to_hash : instance.name,
+      
       
     
       
+      
         device_path: instance.devicePath.respond_to?(:to_hash) ? instance.devicePath.to_hash : instance.devicePath,
+      
       
     
     object: instance,
