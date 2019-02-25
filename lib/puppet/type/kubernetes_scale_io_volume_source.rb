@@ -119,7 +119,7 @@ Puppet::Type.newtype(:kubernetes_scale_io_volume_source) do
       newproperty(:storage_mode) do
       
         
-        desc "Indicates whether the storage for a volume should be ThickProvisioned or ThinProvisioned."
+        desc "Indicates whether the storage for a volume should be ThickProvisioned or ThinProvisioned. Default is ThinProvisioned."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -145,7 +145,7 @@ Puppet::Type.newtype(:kubernetes_scale_io_volume_source) do
       newproperty(:fs_type) do
       
         
-        desc "Filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. 'ext4', 'xfs', 'ntfs'. Implicitly inferred to be 'ext4' if unspecified."
+        desc "Filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. 'ext4', 'xfs', 'ntfs'. Default is 'xfs'."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)

@@ -15,21 +15,15 @@ Puppet::Type.type(:kubernetes_label_selector_requirement).provide(:swagger, :par
     name: instance.metadata.name,
     
       
-        
         key: instance.key.respond_to?(:to_hash) ? instance.key.to_hash : instance.key,
-        
       
     
       
-        
         operator: instance.operator.respond_to?(:to_hash) ? instance.operator.to_hash : instance.operator,
-        
       
     
       
-        
-        values: hash_arrays(instance.values),
-        
+        values: instance.values.respond_to?(:to_hash) ? instance.values.to_hash : instance.values,
       
     
     object: instance,

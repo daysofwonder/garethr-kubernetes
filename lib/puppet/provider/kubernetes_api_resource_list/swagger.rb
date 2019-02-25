@@ -19,15 +19,11 @@ Puppet::Type.type(:kubernetes_api_resource_list).provide(:swagger, :parent => Pu
       
     
       
-        
         group_version: instance.groupVersion.respond_to?(:to_hash) ? instance.groupVersion.to_hash : instance.groupVersion,
-        
       
     
       
-        
-        resources: hash_arrays(instance.resources),
-        
+        resources: instance.resources.respond_to?(:to_hash) ? instance.resources.to_hash : instance.resources,
       
     
     object: instance,

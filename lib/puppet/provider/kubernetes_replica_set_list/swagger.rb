@@ -19,15 +19,11 @@ Puppet::Type.type(:kubernetes_replica_set_list).provide(:swagger, :parent => Pup
       
     
       
-        
         metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-        
       
     
       
-        
-        items: hash_arrays(instance.items),
-        
+        items: instance.items.respond_to?(:to_hash) ? instance.items.to_hash : instance.items,
       
     
     object: instance,

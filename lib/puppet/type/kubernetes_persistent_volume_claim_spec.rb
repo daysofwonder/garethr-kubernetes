@@ -13,6 +13,20 @@ Puppet::Type.newtype(:kubernetes_persistent_volume_claim_spec) do
   ensurable
 
   
+  validate do
+    required_properties = [
+    
+      :data_source,
+    
+    ]
+    required_properties.each do |property|
+      # We check for both places so as to cover the puppet resource path as well
+      if self[property].nil? and self.provider.send(property) == :absent
+        fail "You must provide a #{property}"
+      end
+    end
+  end
+  
 
   newparam(:name, namevar: true) do
     desc 'Name of the persistent_volume_claim_spec.'
@@ -76,6 +90,32 @@ Puppet::Type.newtype(:kubernetes_persistent_volume_claim_spec) do
       
         
         desc "Name of the StorageClass required by the claim. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#class-1"
+        
+        def insync?(is)
+          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+        end
+      end
+    
+  
+    
+      
+      newproperty(:volume_mode) do
+      
+        
+        desc "volumeMode defines what type of volume is required by the claim. Value of Filesystem is implied when not included in claim spec. This is an alpha feature and may change in the future."
+        
+        def insync?(is)
+          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+        end
+      end
+    
+  
+    
+      
+      newproperty(:data_source) do
+      
+        
+        desc "This field requires the VolumeSnapshotDataSource alpha feature gate to be enabled and currently VolumeSnapshot is the only supported data source. If the provisioner can support VolumeSnapshot data source, it will create a new volume and data will be restored to the volume at the same time. If the provisioner does not support VolumeSnapshot data source, volume will not be created and the failure will be reported as an event. In the future, we plan to support more data source types and the behavior of the provisioner may change."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)

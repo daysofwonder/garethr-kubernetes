@@ -15,45 +15,39 @@ Puppet::Type.type(:kubernetes_security_context).provide(:swagger, :parent => Pup
     name: instance.metadata.name,
     
       
-        
         capabilities: instance.capabilities.respond_to?(:to_hash) ? instance.capabilities.to_hash : instance.capabilities,
-        
       
     
       
-        
         privileged: instance.privileged.respond_to?(:to_hash) ? instance.privileged.to_hash : instance.privileged,
-        
       
     
       
-        
         se_linux_options: instance.seLinuxOptions.respond_to?(:to_hash) ? instance.seLinuxOptions.to_hash : instance.seLinuxOptions,
-        
       
     
       
-        
         run_as_user: instance.runAsUser.respond_to?(:to_hash) ? instance.runAsUser.to_hash : instance.runAsUser,
-        
       
     
       
-        
+        run_as_group: instance.runAsGroup.respond_to?(:to_hash) ? instance.runAsGroup.to_hash : instance.runAsGroup,
+      
+    
+      
         run_as_non_root: instance.runAsNonRoot.respond_to?(:to_hash) ? instance.runAsNonRoot.to_hash : instance.runAsNonRoot,
-        
       
     
       
-        
         read_only_root_filesystem: instance.readOnlyRootFilesystem.respond_to?(:to_hash) ? instance.readOnlyRootFilesystem.to_hash : instance.readOnlyRootFilesystem,
-        
       
     
       
-        
         allow_privilege_escalation: instance.allowPrivilegeEscalation.respond_to?(:to_hash) ? instance.allowPrivilegeEscalation.to_hash : instance.allowPrivilegeEscalation,
-        
+      
+    
+      
+        proc_mount: instance.procMount.respond_to?(:to_hash) ? instance.procMount.to_hash : instance.procMount,
       
     
     object: instance,
@@ -104,6 +98,10 @@ Puppet::Type.type(:kubernetes_security_context).provide(:swagger, :parent => Pup
       
     
       
+        runAsGroup: resource[:run_as_group],
+      
+    
+      
         runAsNonRoot: resource[:run_as_non_root],
       
     
@@ -113,6 +111,10 @@ Puppet::Type.type(:kubernetes_security_context).provide(:swagger, :parent => Pup
     
       
         allowPrivilegeEscalation: resource[:allow_privilege_escalation],
+      
+    
+      
+        procMount: resource[:proc_mount],
       
     
     }

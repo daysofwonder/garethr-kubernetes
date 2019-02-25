@@ -41,7 +41,7 @@ Puppet::Type.newtype(:kubernetes_iscsi_volume_source) do
       newproperty(:target_portal) do
       
         
-        desc "iSCSI target portal. The portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260)."
+        desc "iSCSI Target Portal. The Portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260)."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -67,7 +67,7 @@ Puppet::Type.newtype(:kubernetes_iscsi_volume_source) do
       newproperty(:lun) do
       
         
-        desc "iSCSI target lun number."
+        desc "iSCSI Target Lun number."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -80,7 +80,7 @@ Puppet::Type.newtype(:kubernetes_iscsi_volume_source) do
       newproperty(:iscsi_interface) do
       
         
-        desc "Optional: Defaults to 'default' (tcp). iSCSI interface name that uses an iSCSI transport."
+        desc "iSCSI Interface Name that uses an iSCSI transport. Defaults to 'default' (tcp)."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -119,7 +119,7 @@ Puppet::Type.newtype(:kubernetes_iscsi_volume_source) do
       newproperty(:portals, :array_matching => :all) do
       
         
-        desc "iSCSI target portal List. The portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260)."
+        desc "iSCSI Target Portal List. The portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260)."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -158,7 +158,7 @@ Puppet::Type.newtype(:kubernetes_iscsi_volume_source) do
       newproperty(:secret_ref) do
       
         
-        desc "CHAP secret for iSCSI target and initiator authentication"
+        desc "CHAP Secret for iSCSI target and initiator authentication"
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -171,7 +171,7 @@ Puppet::Type.newtype(:kubernetes_iscsi_volume_source) do
       newproperty(:initiator_name) do
       
         
-        desc "Custom iSCSI initiator name. If initiatorName is specified with iscsiInterface simultaneously, new iSCSI interface <target portal>:<volume name> will be created for the connection."
+        desc "Custom iSCSI Initiator Name. If initiatorName is specified with iscsiInterface simultaneously, new iSCSI interface <target portal>:<volume name> will be created for the connection."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)

@@ -16,6 +16,8 @@ Puppet::Type.newtype(:kubernetes_deployment_spec) do
   validate do
     required_properties = [
     
+      :selector,
+    
       :template,
     
     ]
@@ -50,7 +52,7 @@ Puppet::Type.newtype(:kubernetes_deployment_spec) do
       newproperty(:selector) do
       
         
-        desc "Label selector for pods. Existing ReplicaSets whose pods are selected by this will be the ones affected by this deployment."
+        desc "Label selector for pods. Existing ReplicaSets whose pods are selected by this will be the ones affected by this deployment. It must match the pod template's labels."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -102,7 +104,7 @@ Puppet::Type.newtype(:kubernetes_deployment_spec) do
       newproperty(:revision_history_limit) do
       
         
-        desc "The number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified."
+        desc "The number of old ReplicaSets to retain to allow rollback. This is a pointer to distinguish between explicit zero and not specified. Defaults to 10."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -115,20 +117,7 @@ Puppet::Type.newtype(:kubernetes_deployment_spec) do
       newproperty(:paused) do
       
         
-        desc "Indicates that the deployment is paused and will not be processed by the deployment controller."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
-    
-      
-      newproperty(:rollback_to) do
-      
-        
-        desc "DEPRECATED. The config this deployment is rolling back to. Will be cleared after rollback is done."
+        desc "Indicates that the deployment is paused."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -141,7 +130,7 @@ Puppet::Type.newtype(:kubernetes_deployment_spec) do
       newproperty(:progress_deadline_seconds) do
       
         
-        desc "The maximum time in seconds for a deployment to make progress before it is considered to be failed. The deployment controller will continue to process failed deployments and a condition with a ProgressDeadlineExceeded reason will be surfaced in the deployment status. Note that progress will not be estimated during the time a deployment is paused. This is not set by default."
+        desc "The maximum time in seconds for a deployment to make progress before it is considered to be failed. The deployment controller will continue to process failed deployments and a condition with a ProgressDeadlineExceeded reason will be surfaced in the deployment status. Note that progress will not be estimated during the time a deployment is paused. Defaults to 600s."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)

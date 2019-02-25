@@ -102,7 +102,7 @@ Puppet::Type.newtype(:kubernetes_volume) do
       newproperty(:git_repo) do
       
         
-        desc "GitRepo represents a git repository at a particular revision."
+        desc "GitRepo represents a git repository at a particular revision. DEPRECATED: GitRepo is deprecated. To provision a container with a git repo, mount an EmptyDir into an InitContainer that clones the repo using git, then mount the EmptyDir into the Pod's container."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -193,7 +193,7 @@ Puppet::Type.newtype(:kubernetes_volume) do
       newproperty(:flex_volume) do
       
         
-        desc "FlexVolume represents a generic volume resource that is provisioned/attached using an exec based plugin. This is an alpha feature and may change in future."
+        desc "FlexVolume represents a generic volume resource that is provisioned/attached using an exec based plugin."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)

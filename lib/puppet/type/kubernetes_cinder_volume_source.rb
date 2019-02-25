@@ -71,4 +71,17 @@ Puppet::Type.newtype(:kubernetes_cinder_volume_source) do
       end
     
   
+    
+      
+      newproperty(:secret_ref) do
+      
+        
+        desc "Optional: points to a secret object containing parameters used to connect to OpenStack."
+        
+        def insync?(is)
+          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+        end
+      end
+    
+  
 end

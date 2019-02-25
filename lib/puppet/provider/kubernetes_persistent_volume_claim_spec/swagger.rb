@@ -15,33 +15,31 @@ Puppet::Type.type(:kubernetes_persistent_volume_claim_spec).provide(:swagger, :p
     name: instance.metadata.name,
     
       
-        
-        access_modes: hash_arrays(instance.accessModes),
-        
+        access_modes: instance.accessModes.respond_to?(:to_hash) ? instance.accessModes.to_hash : instance.accessModes,
       
     
       
-        
         selector: instance.selector.respond_to?(:to_hash) ? instance.selector.to_hash : instance.selector,
-        
       
     
       
-        
         resources: instance.resources.respond_to?(:to_hash) ? instance.resources.to_hash : instance.resources,
-        
       
     
       
-        
         volume_name: instance.volumeName.respond_to?(:to_hash) ? instance.volumeName.to_hash : instance.volumeName,
-        
       
     
       
-        
         storage_class_name: instance.storageClassName.respond_to?(:to_hash) ? instance.storageClassName.to_hash : instance.storageClassName,
-        
+      
+    
+      
+        volume_mode: instance.volumeMode.respond_to?(:to_hash) ? instance.volumeMode.to_hash : instance.volumeMode,
+      
+    
+      
+        data_source: instance.dataSource.respond_to?(:to_hash) ? instance.dataSource.to_hash : instance.dataSource,
       
     
     object: instance,
@@ -93,6 +91,14 @@ Puppet::Type.type(:kubernetes_persistent_volume_claim_spec).provide(:swagger, :p
     
       
         storageClassName: resource[:storage_class_name],
+      
+    
+      
+        volumeMode: resource[:volume_mode],
+      
+    
+      
+        dataSource: resource[:data_source],
       
     
     }

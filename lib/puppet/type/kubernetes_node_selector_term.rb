@@ -7,25 +7,11 @@ require_relative '../../puppet_x/puppetlabs/swagger/fuzzy_compare'
 
 Puppet::Type.newtype(:kubernetes_node_selector_term) do
   
-  @doc = "A null or empty node selector term matches no objects."
+  @doc = "A null or empty node selector term matches no objects. The requirements of them are ANDed. The TopologySelectorTerm type implements a subset of the NodeSelectorTerm."
   
 
   ensurable
 
-  
-  validate do
-    required_properties = [
-    
-      :match_expressions,
-    
-    ]
-    required_properties.each do |property|
-      # We check for both places so as to cover the puppet resource path as well
-      if self[property].nil? and self.provider.send(property) == :absent
-        fail "You must provide a #{property}"
-      end
-    end
-  end
   
 
   newparam(:name, namevar: true) do
@@ -37,7 +23,20 @@ Puppet::Type.newtype(:kubernetes_node_selector_term) do
       newproperty(:match_expressions, :array_matching => :all) do
       
         
-        desc "Required. A list of node selector requirements. The requirements are ANDed."
+        desc "A list of node selector requirements by node's labels."
+        
+        def insync?(is)
+          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+        end
+      end
+    
+  
+    
+      
+      newproperty(:match_fields, :array_matching => :all) do
+      
+        
+        desc "A list of node selector requirements by node's fields."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
