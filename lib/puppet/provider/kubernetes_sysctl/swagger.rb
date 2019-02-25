@@ -15,15 +15,11 @@ Puppet::Type.type(:kubernetes_sysctl).provide(:swagger, :parent => PuppetX::Pupp
     name: instance.metadata.name,
     
       
-      
         name: instance.name.respond_to?(:to_hash) ? instance.name.to_hash : instance.name,
-      
       
     
       
-      
         value: instance.value.respond_to?(:to_hash) ? instance.value.to_hash : instance.value,
-      
       
     
     object: instance,

@@ -15,33 +15,23 @@ Puppet::Type.type(:kubernetes_http_get_action).provide(:swagger, :parent => Pupp
     name: instance.metadata.name,
     
       
-      
         path: instance.path.respond_to?(:to_hash) ? instance.path.to_hash : instance.path,
       
-      
     
-      
       
         port: instance.port.respond_to?(:to_hash) ? instance.port.to_hash : instance.port,
       
-      
     
-      
       
         host: instance.host.respond_to?(:to_hash) ? instance.host.to_hash : instance.host,
       
-      
     
-      
       
         scheme: instance.scheme.respond_to?(:to_hash) ? instance.scheme.to_hash : instance.scheme,
       
-      
     
       
-      
-        http_headers: hash_arrays(httpHeaders),
-      
+        http_headers: instance.httpHeaders.respond_to?(:to_hash) ? instance.httpHeaders.to_hash : instance.httpHeaders,
       
     
     object: instance,

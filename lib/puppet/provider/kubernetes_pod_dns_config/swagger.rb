@@ -15,21 +15,15 @@ Puppet::Type.type(:kubernetes_pod_dns_config).provide(:swagger, :parent => Puppe
     name: instance.metadata.name,
     
       
-      
-        nameservers: hash_arrays(nameservers),
-      
+        nameservers: instance.nameservers.respond_to?(:to_hash) ? instance.nameservers.to_hash : instance.nameservers,
       
     
       
-      
-        searches: hash_arrays(searches),
-      
+        searches: instance.searches.respond_to?(:to_hash) ? instance.searches.to_hash : instance.searches,
       
     
       
-      
-        options: hash_arrays(options),
-      
+        options: instance.options.respond_to?(:to_hash) ? instance.options.to_hash : instance.options,
       
     
     object: instance,

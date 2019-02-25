@@ -15,9 +15,7 @@ Puppet::Type.type(:kubernetes_pod_readiness_gate).provide(:swagger, :parent => P
     name: instance.metadata.name,
     
       
-      
         condition_type: instance.conditionType.respond_to?(:to_hash) ? instance.conditionType.to_hash : instance.conditionType,
-      
       
     
     object: instance,

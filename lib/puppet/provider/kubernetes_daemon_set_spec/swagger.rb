@@ -15,33 +15,23 @@ Puppet::Type.type(:kubernetes_daemon_set_spec).provide(:swagger, :parent => Pupp
     name: instance.metadata.name,
     
       
-      
         selector: instance.selector.respond_to?(:to_hash) ? instance.selector.to_hash : instance.selector,
       
-      
     
-      
       
         template: instance.template.respond_to?(:to_hash) ? instance.template.to_hash : instance.template,
       
-      
     
-      
       
         update_strategy: instance.updateStrategy.respond_to?(:to_hash) ? instance.updateStrategy.to_hash : instance.updateStrategy,
       
-      
     
-      
       
         min_ready_seconds: instance.minReadySeconds.respond_to?(:to_hash) ? instance.minReadySeconds.to_hash : instance.minReadySeconds,
       
-      
     
       
-      
         revision_history_limit: instance.revisionHistoryLimit.respond_to?(:to_hash) ? instance.revisionHistoryLimit.to_hash : instance.revisionHistoryLimit,
-      
       
     
     object: instance,

@@ -15,15 +15,11 @@ Puppet::Type.type(:kubernetes_capabilities).provide(:swagger, :parent => PuppetX
     name: instance.metadata.name,
     
       
-      
-        add: hash_arrays(add),
-      
+        add: instance.add.respond_to?(:to_hash) ? instance.add.to_hash : instance.add,
       
     
       
-      
-        drop: hash_arrays(drop),
-      
+        drop: instance.drop.respond_to?(:to_hash) ? instance.drop.to_hash : instance.drop,
       
     
     object: instance,

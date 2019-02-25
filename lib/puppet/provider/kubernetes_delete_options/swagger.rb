@@ -19,33 +19,23 @@ Puppet::Type.type(:kubernetes_delete_options).provide(:swagger, :parent => Puppe
       
     
       
-      
         grace_period_seconds: instance.gracePeriodSeconds.respond_to?(:to_hash) ? instance.gracePeriodSeconds.to_hash : instance.gracePeriodSeconds,
       
-      
     
-      
       
         preconditions: instance.preconditions.respond_to?(:to_hash) ? instance.preconditions.to_hash : instance.preconditions,
       
-      
     
-      
       
         orphan_dependents: instance.orphanDependents.respond_to?(:to_hash) ? instance.orphanDependents.to_hash : instance.orphanDependents,
       
-      
     
-      
       
         propagation_policy: instance.propagationPolicy.respond_to?(:to_hash) ? instance.propagationPolicy.to_hash : instance.propagationPolicy,
       
-      
     
       
-      
-        dry_run: hash_arrays(dryRun),
-      
+        dry_run: instance.dryRun.respond_to?(:to_hash) ? instance.dryRun.to_hash : instance.dryRun,
       
     
     object: instance,

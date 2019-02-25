@@ -15,21 +15,15 @@ Puppet::Type.type(:kubernetes_pod_affinity_term).provide(:swagger, :parent => Pu
     name: instance.metadata.name,
     
       
-      
         label_selector: instance.labelSelector.respond_to?(:to_hash) ? instance.labelSelector.to_hash : instance.labelSelector,
       
-      
     
       
-      
-        namespaces: hash_arrays(namespaces),
-      
+        namespaces: instance.namespaces.respond_to?(:to_hash) ? instance.namespaces.to_hash : instance.namespaces,
       
     
-      
       
         topology_key: instance.topologyKey.respond_to?(:to_hash) ? instance.topologyKey.to_hash : instance.topologyKey,
-      
       
     
     object: instance,

@@ -19,15 +19,11 @@ Puppet::Type.type(:kubernetes_daemon_set_list).provide(:swagger, :parent => Pupp
       
     
       
-      
         metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-      
       
     
       
-      
-        items: hash_arrays(items),
-      
+        items: instance.items.respond_to?(:to_hash) ? instance.items.to_hash : instance.items,
       
     
     object: instance,

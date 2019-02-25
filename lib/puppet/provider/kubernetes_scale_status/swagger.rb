@@ -15,15 +15,11 @@ Puppet::Type.type(:kubernetes_scale_status).provide(:swagger, :parent => PuppetX
     name: instance.metadata.name,
     
       
-      
         replicas: instance.replicas.respond_to?(:to_hash) ? instance.replicas.to_hash : instance.replicas,
-      
       
     
       
-      
         selector: instance.selector.respond_to?(:to_hash) ? instance.selector.to_hash : instance.selector,
-      
       
     
     object: instance,

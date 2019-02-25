@@ -15,15 +15,11 @@ Puppet::Type.type(:kubernetes_projected_volume_source).provide(:swagger, :parent
     name: instance.metadata.name,
     
       
-      
-        sources: hash_arrays(sources),
-      
+        sources: instance.sources.respond_to?(:to_hash) ? instance.sources.to_hash : instance.sources,
       
     
       
-      
         default_mode: instance.defaultMode.respond_to?(:to_hash) ? instance.defaultMode.to_hash : instance.defaultMode,
-      
       
     
     object: instance,

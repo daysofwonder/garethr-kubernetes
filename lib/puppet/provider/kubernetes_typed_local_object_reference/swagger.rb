@@ -15,17 +15,13 @@ Puppet::Type.type(:kubernetes_typed_local_object_reference).provide(:swagger, :p
     name: instance.metadata.name,
     
       
-      
         api_group: instance.apiGroup.respond_to?(:to_hash) ? instance.apiGroup.to_hash : instance.apiGroup,
       
-      
     
       
     
-      
       
         name: instance.name.respond_to?(:to_hash) ? instance.name.to_hash : instance.name,
-      
       
     
     object: instance,

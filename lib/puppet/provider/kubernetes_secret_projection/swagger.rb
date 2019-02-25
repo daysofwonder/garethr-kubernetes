@@ -15,21 +15,15 @@ Puppet::Type.type(:kubernetes_secret_projection).provide(:swagger, :parent => Pu
     name: instance.metadata.name,
     
       
-      
         name: instance.name.respond_to?(:to_hash) ? instance.name.to_hash : instance.name,
       
-      
     
       
-      
-        items: hash_arrays(items),
-      
+        items: instance.items.respond_to?(:to_hash) ? instance.items.to_hash : instance.items,
       
     
-      
       
         optional: instance.optional.respond_to?(:to_hash) ? instance.optional.to_hash : instance.optional,
-      
       
     
     object: instance,

@@ -15,57 +15,39 @@ Puppet::Type.type(:kubernetes_stateful_set_status).provide(:swagger, :parent => 
     name: instance.metadata.name,
     
       
-      
         observed_generation: instance.observedGeneration.respond_to?(:to_hash) ? instance.observedGeneration.to_hash : instance.observedGeneration,
       
-      
     
-      
       
         replicas: instance.replicas.respond_to?(:to_hash) ? instance.replicas.to_hash : instance.replicas,
       
-      
     
-      
       
         ready_replicas: instance.readyReplicas.respond_to?(:to_hash) ? instance.readyReplicas.to_hash : instance.readyReplicas,
       
-      
     
-      
       
         current_replicas: instance.currentReplicas.respond_to?(:to_hash) ? instance.currentReplicas.to_hash : instance.currentReplicas,
       
-      
     
-      
       
         updated_replicas: instance.updatedReplicas.respond_to?(:to_hash) ? instance.updatedReplicas.to_hash : instance.updatedReplicas,
       
-      
     
-      
       
         current_revision: instance.currentRevision.respond_to?(:to_hash) ? instance.currentRevision.to_hash : instance.currentRevision,
       
-      
     
-      
       
         update_revision: instance.updateRevision.respond_to?(:to_hash) ? instance.updateRevision.to_hash : instance.updateRevision,
       
-      
     
-      
       
         collision_count: instance.collisionCount.respond_to?(:to_hash) ? instance.collisionCount.to_hash : instance.collisionCount,
       
-      
     
       
-      
-        conditions: hash_arrays(conditions),
-      
+        conditions: instance.conditions.respond_to?(:to_hash) ? instance.conditions.to_hash : instance.conditions,
       
     
     object: instance,
