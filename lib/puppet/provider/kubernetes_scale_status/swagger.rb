@@ -26,6 +26,12 @@ Puppet::Type.type(:kubernetes_scale_status).provide(:swagger, :parent => PuppetX
         
       
     
+      
+        
+        target_selector: instance.targetSelector.respond_to?(:to_hash) ? instance.targetSelector.to_hash : instance.targetSelector,
+        
+      
+    
     object: instance,
     }
   end
@@ -63,6 +69,10 @@ Puppet::Type.type(:kubernetes_scale_status).provide(:swagger, :parent => PuppetX
     
       
         selector: resource[:selector],
+      
+    
+      
+        targetSelector: resource[:target_selector],
       
     
     }

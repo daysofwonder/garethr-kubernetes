@@ -68,12 +68,6 @@ Puppet::Type.type(:kubernetes_daemon_set_status).provide(:swagger, :parent => Pu
         
       
     
-      
-        
-        conditions: hash_arrays(instance.conditions),
-        
-      
-    
     object: instance,
     }
   end
@@ -139,10 +133,6 @@ Puppet::Type.type(:kubernetes_daemon_set_status).provide(:swagger, :parent => Pu
     
       
         collisionCount: resource[:collision_count],
-      
-    
-      
-        conditions: resource[:conditions],
       
     
     }

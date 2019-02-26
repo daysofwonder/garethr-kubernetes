@@ -7,8 +7,6 @@ require_relative '../../puppet_x/puppetlabs/swagger/fuzzy_compare'
 
 Puppet::Type.newtype(:kubernetes_daemon_set_update_strategy) do
   
-  @doc = "DaemonSetUpdateStrategy is a struct used to control the update strategy for a DaemonSet."
-  
 
   ensurable
 
@@ -23,7 +21,7 @@ Puppet::Type.newtype(:kubernetes_daemon_set_update_strategy) do
       newproperty(:type) do
       
         
-        desc "Type of daemon set update. Can be 'RollingUpdate' or 'OnDelete'. Default is RollingUpdate."
+        desc "Type of daemon set update. Can be 'RollingUpdate' or 'OnDelete'. Default is OnDelete."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)

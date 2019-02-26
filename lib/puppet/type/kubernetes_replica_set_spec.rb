@@ -13,20 +13,6 @@ Puppet::Type.newtype(:kubernetes_replica_set_spec) do
   ensurable
 
   
-  validate do
-    required_properties = [
-    
-      :selector,
-    
-    ]
-    required_properties.each do |property|
-      # We check for both places so as to cover the puppet resource path as well
-      if self[property].nil? and self.provider.send(property) == :absent
-        fail "You must provide a #{property}"
-      end
-    end
-  end
-  
 
   newparam(:name, namevar: true) do
     desc 'Name of the replica_set_spec.'
@@ -63,7 +49,7 @@ Puppet::Type.newtype(:kubernetes_replica_set_spec) do
       newproperty(:selector) do
       
         
-        desc "Selector is a label query over pods that should match the replica count. Label keys and values that must match in order to be controlled by this replica set. It must match the pod template's labels. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors"
+        desc "Selector is a label query over pods that should match the replica count. If the selector is empty, it is defaulted to the labels present on the pod template. Label keys and values that must match in order to be controlled by this replica set. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors"
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)

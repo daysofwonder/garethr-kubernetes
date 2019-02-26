@@ -155,17 +155,4 @@ Puppet::Type.newtype(:kubernetes_daemon_set_status) do
       end
     
   
-    
-      
-      newproperty(:conditions, :array_matching => :all) do
-      
-        
-        desc "Represents the latest available observations of a DaemonSet's current state."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
 end

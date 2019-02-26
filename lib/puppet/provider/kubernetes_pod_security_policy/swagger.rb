@@ -13,23 +13,23 @@ Puppet::Type.type(:kubernetes_pod_security_policy).provide(:swagger, :parent => 
     {
     ensure: :present,
     name: instance.metadata.name,
-    
-      
-    
-      
-    
-      
-        
+
+
+
+
+
+
+
         metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-        
-      
-    
-      
-        
+
+
+
+
+
         spec: instance.spec.respond_to?(:to_hash) ? instance.spec.to_hash : instance.spec,
-        
-      
-    
+
+
+
     object: instance,
     }
   end
@@ -60,19 +60,19 @@ Puppet::Type.type(:kubernetes_pod_security_policy).provide(:swagger, :parent => 
 
   def build_params
     params = {
-    
-      
-    
-      
-    
-      
+
+
+
+
+
+
         metadata: resource[:metadata],
-      
-    
-      
+
+
+
         spec: resource[:spec],
-      
-    
+
+
     }
     params.delete_if { |key, value| value.nil? }
     params

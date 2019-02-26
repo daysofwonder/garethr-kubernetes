@@ -58,6 +58,12 @@ Puppet::Type.type(:kubernetes_deployment_spec).provide(:swagger, :parent => Pupp
     
       
         
+        rollback_to: instance.rollbackTo.respond_to?(:to_hash) ? instance.rollbackTo.to_hash : instance.rollbackTo,
+        
+      
+    
+      
+        
         progress_deadline_seconds: instance.progressDeadlineSeconds.respond_to?(:to_hash) ? instance.progressDeadlineSeconds.to_hash : instance.progressDeadlineSeconds,
         
       
@@ -119,6 +125,10 @@ Puppet::Type.type(:kubernetes_deployment_spec).provide(:swagger, :parent => Pupp
     
       
         paused: resource[:paused],
+      
+    
+      
+        rollbackTo: resource[:rollback_to],
       
     
       

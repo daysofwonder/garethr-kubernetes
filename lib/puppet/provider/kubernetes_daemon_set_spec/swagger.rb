@@ -40,6 +40,12 @@ Puppet::Type.type(:kubernetes_daemon_set_spec).provide(:swagger, :parent => Pupp
     
       
         
+        template_generation: instance.templateGeneration.respond_to?(:to_hash) ? instance.templateGeneration.to_hash : instance.templateGeneration,
+        
+      
+    
+      
+        
         revision_history_limit: instance.revisionHistoryLimit.respond_to?(:to_hash) ? instance.revisionHistoryLimit.to_hash : instance.revisionHistoryLimit,
         
       
@@ -89,6 +95,10 @@ Puppet::Type.type(:kubernetes_daemon_set_spec).provide(:swagger, :parent => Pupp
     
       
         minReadySeconds: resource[:min_ready_seconds],
+      
+    
+      
+        templateGeneration: resource[:template_generation],
       
     
       
