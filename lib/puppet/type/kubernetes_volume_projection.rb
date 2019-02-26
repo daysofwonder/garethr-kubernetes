@@ -57,17 +57,4 @@ Puppet::Type.newtype(:kubernetes_volume_projection) do
       end
     
   
-    
-      
-      newproperty(:service_account_token) do
-      
-        
-        desc "information about the serviceAccountToken data to project"
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
 end

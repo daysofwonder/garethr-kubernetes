@@ -44,18 +44,6 @@ Puppet::Type.type(:kubernetes_persistent_volume_claim_spec).provide(:swagger, :p
         
       
     
-      
-        
-        volume_mode: instance.volumeMode.respond_to?(:to_hash) ? instance.volumeMode.to_hash : instance.volumeMode,
-        
-      
-    
-      
-        
-        data_source: instance.dataSource.respond_to?(:to_hash) ? instance.dataSource.to_hash : instance.dataSource,
-        
-      
-    
     object: instance,
     }
   end
@@ -105,14 +93,6 @@ Puppet::Type.type(:kubernetes_persistent_volume_claim_spec).provide(:swagger, :p
     
       
         storageClassName: resource[:storage_class_name],
-      
-    
-      
-        volumeMode: resource[:volume_mode],
-      
-    
-      
-        dataSource: resource[:data_source],
       
     
     }

@@ -28,12 +28,6 @@ Puppet::Type.type(:kubernetes_pod_security_context).provide(:swagger, :parent =>
     
       
         
-        run_as_group: instance.runAsGroup.respond_to?(:to_hash) ? instance.runAsGroup.to_hash : instance.runAsGroup,
-        
-      
-    
-      
-        
         run_as_non_root: instance.runAsNonRoot.respond_to?(:to_hash) ? instance.runAsNonRoot.to_hash : instance.runAsNonRoot,
         
       
@@ -47,12 +41,6 @@ Puppet::Type.type(:kubernetes_pod_security_context).provide(:swagger, :parent =>
       
         
         fs_group: instance.fsGroup.respond_to?(:to_hash) ? instance.fsGroup.to_hash : instance.fsGroup,
-        
-      
-    
-      
-        
-        sysctls: hash_arrays(instance.sysctls),
         
       
     
@@ -96,10 +84,6 @@ Puppet::Type.type(:kubernetes_pod_security_context).provide(:swagger, :parent =>
       
     
       
-        runAsGroup: resource[:run_as_group],
-      
-    
-      
         runAsNonRoot: resource[:run_as_non_root],
       
     
@@ -109,10 +93,6 @@ Puppet::Type.type(:kubernetes_pod_security_context).provide(:swagger, :parent =>
     
       
         fsGroup: resource[:fs_group],
-      
-    
-      
-        sysctls: resource[:sysctls],
       
     
     }

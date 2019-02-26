@@ -141,7 +141,7 @@ Puppet::Type.newtype(:kubernetes_container) do
       newproperty(:resources) do
       
         
-        desc "Compute Resources required by this container. Cannot be updated. More info: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/"
+        desc "Compute Resources required by this container. Cannot be updated. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#resources"
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -155,19 +155,6 @@ Puppet::Type.newtype(:kubernetes_container) do
       
         
         desc "Pod volumes to mount into the container's filesystem. Cannot be updated."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
-    
-      
-      newproperty(:volume_devices, :array_matching => :all) do
-      
-        
-        desc "volumeDevices is the list of block devices to be used by the container. This is an alpha feature and may change in the future."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
@@ -258,7 +245,7 @@ Puppet::Type.newtype(:kubernetes_container) do
       newproperty(:security_context) do
       
         
-        desc "Security options the pod should run with. More info: https://kubernetes.io/docs/concepts/policy/security-context/ More info: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
+        desc "Security options the pod should run with. More info: https://kubernetes.io/docs/concepts/policy/security-context/ More info: https://git.k8s.io/community/contributors/design-proposals/security_context.md"
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)

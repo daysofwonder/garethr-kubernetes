@@ -32,12 +32,6 @@ Puppet::Type.type(:kubernetes_volume_projection).provide(:swagger, :parent => Pu
         
       
     
-      
-        
-        service_account_token: instance.serviceAccountToken.respond_to?(:to_hash) ? instance.serviceAccountToken.to_hash : instance.serviceAccountToken,
-        
-      
-    
     object: instance,
     }
   end
@@ -79,10 +73,6 @@ Puppet::Type.type(:kubernetes_volume_projection).provide(:swagger, :parent => Pu
     
       
         configMap: resource[:config_map],
-      
-    
-      
-        serviceAccountToken: resource[:service_account_token],
       
     
     }

@@ -7,7 +7,7 @@ require_relative '../../puppet_x/puppetlabs/swagger/fuzzy_compare'
 
 Puppet::Type.newtype(:kubernetes_flex_volume_source) do
   
-  @doc = "FlexVolume represents a generic volume resource that is provisioned/attached using an exec based plugin."
+  @doc = "FlexVolume represents a generic volume resource that is provisioned/attached using an exec based plugin. This is an alpha feature and may change in future."
   
 
   ensurable

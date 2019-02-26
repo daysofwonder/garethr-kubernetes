@@ -20,12 +20,6 @@ Puppet::Type.type(:kubernetes_node_selector_term).provide(:swagger, :parent => P
         
       
     
-      
-        
-        match_fields: hash_arrays(instance.matchFields),
-        
-      
-    
     object: instance,
     }
   end
@@ -59,10 +53,6 @@ Puppet::Type.type(:kubernetes_node_selector_term).provide(:swagger, :parent => P
     
       
         matchExpressions: resource[:match_expressions],
-      
-    
-      
-        matchFields: resource[:match_fields],
       
     
     }

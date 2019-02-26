@@ -40,12 +40,6 @@ Puppet::Type.type(:kubernetes_security_context).provide(:swagger, :parent => Pup
     
       
         
-        run_as_group: instance.runAsGroup.respond_to?(:to_hash) ? instance.runAsGroup.to_hash : instance.runAsGroup,
-        
-      
-    
-      
-        
         run_as_non_root: instance.runAsNonRoot.respond_to?(:to_hash) ? instance.runAsNonRoot.to_hash : instance.runAsNonRoot,
         
       
@@ -59,12 +53,6 @@ Puppet::Type.type(:kubernetes_security_context).provide(:swagger, :parent => Pup
       
         
         allow_privilege_escalation: instance.allowPrivilegeEscalation.respond_to?(:to_hash) ? instance.allowPrivilegeEscalation.to_hash : instance.allowPrivilegeEscalation,
-        
-      
-    
-      
-        
-        proc_mount: instance.procMount.respond_to?(:to_hash) ? instance.procMount.to_hash : instance.procMount,
         
       
     
@@ -116,10 +104,6 @@ Puppet::Type.type(:kubernetes_security_context).provide(:swagger, :parent => Pup
       
     
       
-        runAsGroup: resource[:run_as_group],
-      
-    
-      
         runAsNonRoot: resource[:run_as_non_root],
       
     
@@ -129,10 +113,6 @@ Puppet::Type.type(:kubernetes_security_context).provide(:swagger, :parent => Pup
     
       
         allowPrivilegeEscalation: resource[:allow_privilege_escalation],
-      
-    
-      
-        procMount: resource[:proc_mount],
       
     
     }

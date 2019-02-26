@@ -76,7 +76,7 @@ Puppet::Type.newtype(:kubernetes_container_port) do
       newproperty(:protocol) do
       
         
-        desc "Protocol for port. Must be UDP, TCP, or SCTP. Defaults to 'TCP'."
+        desc "Protocol for port. Must be UDP or TCP. Defaults to 'TCP'."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)

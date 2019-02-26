@@ -106,12 +106,6 @@ Puppet::Type.type(:kubernetes_pod_spec).provide(:swagger, :parent => PuppetX::Pu
     
       
         
-        share_process_namespace: instance.shareProcessNamespace.respond_to?(:to_hash) ? instance.shareProcessNamespace.to_hash : instance.shareProcessNamespace,
-        
-      
-    
-      
-        
         security_context: instance.securityContext.respond_to?(:to_hash) ? instance.securityContext.to_hash : instance.securityContext,
         
       
@@ -167,24 +161,6 @@ Puppet::Type.type(:kubernetes_pod_spec).provide(:swagger, :parent => PuppetX::Pu
       
         
         priority: instance.priority.respond_to?(:to_hash) ? instance.priority.to_hash : instance.priority,
-        
-      
-    
-      
-        
-        dns_config: instance.dnsConfig.respond_to?(:to_hash) ? instance.dnsConfig.to_hash : instance.dnsConfig,
-        
-      
-    
-      
-        
-        readiness_gates: hash_arrays(instance.readinessGates),
-        
-      
-    
-      
-        
-        runtime_class_name: instance.runtimeClassName.respond_to?(:to_hash) ? instance.runtimeClassName.to_hash : instance.runtimeClassName,
         
       
     
@@ -280,10 +256,6 @@ Puppet::Type.type(:kubernetes_pod_spec).provide(:swagger, :parent => PuppetX::Pu
       
     
       
-        shareProcessNamespace: resource[:share_process_namespace],
-      
-    
-      
         securityContext: resource[:security_context],
       
     
@@ -321,18 +293,6 @@ Puppet::Type.type(:kubernetes_pod_spec).provide(:swagger, :parent => PuppetX::Pu
     
       
         priority: resource[:priority],
-      
-    
-      
-        dnsConfig: resource[:dns_config],
-      
-    
-      
-        readinessGates: resource[:readiness_gates],
-      
-    
-      
-        runtimeClassName: resource[:runtime_class_name],
       
     
     }

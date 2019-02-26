@@ -23,7 +23,7 @@ Puppet::Type.newtype(:kubernetes_env_from_source) do
       newproperty(:prefix) do
       
         
-        desc "An optional identifier to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER."
+        desc "An optional identifer to prepend to each key in the ConfigMap. Must be a C_IDENTIFIER."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)

@@ -42,12 +42,6 @@ Puppet::Type.type(:kubernetes_delete_options).provide(:swagger, :parent => Puppe
         
       
     
-      
-        
-        dry_run: hash_arrays(instance.dryRun),
-        
-      
-    
     object: instance,
     }
   end
@@ -97,10 +91,6 @@ Puppet::Type.type(:kubernetes_delete_options).provide(:swagger, :parent => Puppe
     
       
         propagationPolicy: resource[:propagation_policy],
-      
-    
-      
-        dryRun: resource[:dry_run],
       
     
     }

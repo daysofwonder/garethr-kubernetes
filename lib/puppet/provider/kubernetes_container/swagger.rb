@@ -76,12 +76,6 @@ Puppet::Type.type(:kubernetes_container).provide(:swagger, :parent => PuppetX::P
     
       
         
-        volume_devices: hash_arrays(instance.volumeDevices),
-        
-      
-    
-      
-        
         liveness_probe: instance.livenessProbe.respond_to?(:to_hash) ? instance.livenessProbe.to_hash : instance.livenessProbe,
         
       
@@ -209,10 +203,6 @@ Puppet::Type.type(:kubernetes_container).provide(:swagger, :parent => PuppetX::P
     
       
         volumeMounts: resource[:volume_mounts],
-      
-    
-      
-        volumeDevices: resource[:volume_devices],
       
     
       

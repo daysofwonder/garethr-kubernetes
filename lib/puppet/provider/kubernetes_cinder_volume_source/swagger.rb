@@ -32,12 +32,6 @@ Puppet::Type.type(:kubernetes_cinder_volume_source).provide(:swagger, :parent =>
         
       
     
-      
-        
-        secret_ref: instance.secretRef.respond_to?(:to_hash) ? instance.secretRef.to_hash : instance.secretRef,
-        
-      
-    
     object: instance,
     }
   end
@@ -79,10 +73,6 @@ Puppet::Type.type(:kubernetes_cinder_volume_source).provide(:swagger, :parent =>
     
       
         readOnly: resource[:read_only],
-      
-    
-      
-        secretRef: resource[:secret_ref],
       
     
     }
