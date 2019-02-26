@@ -15,11 +15,15 @@ Puppet::Type.type(:kubernetes_node_selector_term).provide(:swagger, :parent => P
     name: instance.metadata.name,
     
       
-        match_expressions: instance.matchExpressions.respond_to?(:to_hash) ? instance.matchExpressions.to_hash : instance.matchExpressions,
+        
+        match_expressions: hash_arrays(instance.matchExpressions),
+        
       
     
       
-        match_fields: instance.matchFields.respond_to?(:to_hash) ? instance.matchFields.to_hash : instance.matchFields,
+        
+        match_fields: hash_arrays(instance.matchFields),
+        
       
     
     object: instance,

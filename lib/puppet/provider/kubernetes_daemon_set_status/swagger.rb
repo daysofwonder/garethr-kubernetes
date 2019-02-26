@@ -15,43 +15,63 @@ Puppet::Type.type(:kubernetes_daemon_set_status).provide(:swagger, :parent => Pu
     name: instance.metadata.name,
     
       
+        
         current_number_scheduled: instance.currentNumberScheduled.respond_to?(:to_hash) ? instance.currentNumberScheduled.to_hash : instance.currentNumberScheduled,
+        
       
     
       
+        
         number_misscheduled: instance.numberMisscheduled.respond_to?(:to_hash) ? instance.numberMisscheduled.to_hash : instance.numberMisscheduled,
+        
       
     
       
+        
         desired_number_scheduled: instance.desiredNumberScheduled.respond_to?(:to_hash) ? instance.desiredNumberScheduled.to_hash : instance.desiredNumberScheduled,
+        
       
     
       
+        
         number_ready: instance.numberReady.respond_to?(:to_hash) ? instance.numberReady.to_hash : instance.numberReady,
+        
       
     
       
+        
         observed_generation: instance.observedGeneration.respond_to?(:to_hash) ? instance.observedGeneration.to_hash : instance.observedGeneration,
+        
       
     
       
+        
         updated_number_scheduled: instance.updatedNumberScheduled.respond_to?(:to_hash) ? instance.updatedNumberScheduled.to_hash : instance.updatedNumberScheduled,
+        
       
     
       
+        
         number_available: instance.numberAvailable.respond_to?(:to_hash) ? instance.numberAvailable.to_hash : instance.numberAvailable,
+        
       
     
       
+        
         number_unavailable: instance.numberUnavailable.respond_to?(:to_hash) ? instance.numberUnavailable.to_hash : instance.numberUnavailable,
+        
       
     
       
+        
         collision_count: instance.collisionCount.respond_to?(:to_hash) ? instance.collisionCount.to_hash : instance.collisionCount,
+        
       
     
       
-        conditions: instance.conditions.respond_to?(:to_hash) ? instance.conditions.to_hash : instance.conditions,
+        
+        conditions: hash_arrays(instance.conditions),
+        
       
     
     object: instance,

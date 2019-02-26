@@ -15,31 +15,45 @@ Puppet::Type.type(:kubernetes_pod_security_context).provide(:swagger, :parent =>
     name: instance.metadata.name,
     
       
+        
         se_linux_options: instance.seLinuxOptions.respond_to?(:to_hash) ? instance.seLinuxOptions.to_hash : instance.seLinuxOptions,
+        
       
     
       
+        
         run_as_user: instance.runAsUser.respond_to?(:to_hash) ? instance.runAsUser.to_hash : instance.runAsUser,
+        
       
     
       
+        
         run_as_group: instance.runAsGroup.respond_to?(:to_hash) ? instance.runAsGroup.to_hash : instance.runAsGroup,
+        
       
     
       
+        
         run_as_non_root: instance.runAsNonRoot.respond_to?(:to_hash) ? instance.runAsNonRoot.to_hash : instance.runAsNonRoot,
+        
       
     
       
-        supplemental_groups: instance.supplementalGroups.respond_to?(:to_hash) ? instance.supplementalGroups.to_hash : instance.supplementalGroups,
+        
+        supplemental_groups: hash_arrays(instance.supplementalGroups),
+        
       
     
       
+        
         fs_group: instance.fsGroup.respond_to?(:to_hash) ? instance.fsGroup.to_hash : instance.fsGroup,
+        
       
     
       
-        sysctls: instance.sysctls.respond_to?(:to_hash) ? instance.sysctls.to_hash : instance.sysctls,
+        
+        sysctls: hash_arrays(instance.sysctls),
+        
       
     
     object: instance,

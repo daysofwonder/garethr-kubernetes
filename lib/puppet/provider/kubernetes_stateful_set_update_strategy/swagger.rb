@@ -15,11 +15,15 @@ Puppet::Type.type(:kubernetes_stateful_set_update_strategy).provide(:swagger, :p
     name: instance.metadata.name,
     
       
+        
         type: instance.type.respond_to?(:to_hash) ? instance.type.to_hash : instance.type,
+        
       
     
       
+        
         rolling_update: instance.rollingUpdate.respond_to?(:to_hash) ? instance.rollingUpdate.to_hash : instance.rollingUpdate,
+        
       
     
     object: instance,
