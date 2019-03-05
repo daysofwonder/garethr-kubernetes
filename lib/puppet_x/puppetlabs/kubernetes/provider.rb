@@ -79,6 +79,7 @@ module PuppetX
             auth_options: config.context.auth_options,
           )
           add_headers(client)
+        end
 
         def self.call(method, *object)
           if v1_client.respond_to?(method)
