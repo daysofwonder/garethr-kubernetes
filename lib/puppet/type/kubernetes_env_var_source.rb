@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_env_var_source) do
   
 
   ensurable
+apply_to_all
 
   
 

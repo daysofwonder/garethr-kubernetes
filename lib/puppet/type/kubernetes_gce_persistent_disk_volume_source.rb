@@ -13,6 +13,7 @@ A GCE PD must exist before mounting to a container. The disk must also be in the
   
 
   ensurable
+apply_to_all
 
   
   validate do

@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_node_affinity) do
   
 
   ensurable
+apply_to_all
 
   
 

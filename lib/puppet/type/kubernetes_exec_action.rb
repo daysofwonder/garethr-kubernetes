@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_exec_action) do
   
 
   ensurable
+apply_to_all
 
   
 

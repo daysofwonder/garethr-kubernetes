@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_weighted_pod_affinity_term) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

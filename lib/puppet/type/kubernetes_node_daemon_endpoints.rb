@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_node_daemon_endpoints) do
   
 
   ensurable
+apply_to_all
 
   
 

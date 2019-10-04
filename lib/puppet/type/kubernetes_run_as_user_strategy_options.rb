@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_run_as_user_strategy_options) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

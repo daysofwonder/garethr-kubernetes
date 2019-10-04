@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_patch) do
   
 
   ensurable
+apply_to_all
 
   
 

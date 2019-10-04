@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_storage_os_volume_source) do
   
 
   ensurable
+apply_to_all
 
   
 

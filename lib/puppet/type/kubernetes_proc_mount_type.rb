@@ -9,6 +9,7 @@ Puppet::Type.newtype(:kubernetes_proc_mount_type) do
   
 
   ensurable
+apply_to_all
 
   
 

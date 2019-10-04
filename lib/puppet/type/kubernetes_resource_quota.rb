@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_resource_quota) do
   
 
   ensurable
+apply_to_all
 
   
 

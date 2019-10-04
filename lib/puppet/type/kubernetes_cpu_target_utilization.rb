@@ -9,6 +9,7 @@ Puppet::Type.newtype(:kubernetes_cpu_target_utilization) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

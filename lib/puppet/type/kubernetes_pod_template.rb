@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_pod_template) do
   
 
   ensurable
+apply_to_all
 
   
 

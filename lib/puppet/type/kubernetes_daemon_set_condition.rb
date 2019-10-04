@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_daemon_set_condition) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

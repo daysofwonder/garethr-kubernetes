@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_status_cause) do
   
 
   ensurable
+apply_to_all
 
   
 

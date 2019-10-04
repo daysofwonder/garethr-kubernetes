@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_stateful_set_spec) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

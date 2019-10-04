@@ -5,3 +5,8 @@ Gemfile.lock
 doc
 pkg
 .DS_Store
+vendor/
+tmp/
+.idea/
+.vscode/
+

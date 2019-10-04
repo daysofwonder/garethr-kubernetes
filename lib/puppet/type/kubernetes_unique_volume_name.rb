@@ -9,6 +9,7 @@ Puppet::Type.newtype(:kubernetes_unique_volume_name) do
   
 
   ensurable
+apply_to_all
 
   
 

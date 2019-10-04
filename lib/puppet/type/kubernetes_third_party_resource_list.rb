@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_third_party_resource_list) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_endpoint_address) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

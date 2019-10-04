@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_container_state_running) do
   
 
   ensurable
+apply_to_all
 
   
 

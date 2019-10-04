@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_subresource_reference) do
   
 
   ensurable
+apply_to_all
 
   
 

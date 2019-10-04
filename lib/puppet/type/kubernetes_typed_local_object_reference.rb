@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_typed_local_object_reference) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

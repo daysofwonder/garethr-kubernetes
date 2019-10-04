@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_probe) do
   
 
   ensurable
+apply_to_all
 
   
 

@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_supplemental_groups_strategy_options) do
   
 
   ensurable
+apply_to_all
 
   
 

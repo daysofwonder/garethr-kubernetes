@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_security_context) do
   
 
   ensurable
+apply_to_all
 
   
 

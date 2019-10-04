@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_object_field_selector) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

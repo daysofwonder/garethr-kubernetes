@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_config_map_key_selector) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

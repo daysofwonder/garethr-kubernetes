@@ -9,6 +9,7 @@ Puppet::Type.newtype(:kubernetes_azure_data_disk_caching_mode) do
   
 
   ensurable
+apply_to_all
 
   
 

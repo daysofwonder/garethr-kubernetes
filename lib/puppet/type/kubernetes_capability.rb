@@ -9,6 +9,7 @@ Puppet::Type.newtype(:kubernetes_capability) do
   
 
   ensurable
+apply_to_all
 
   
 

@@ -9,6 +9,7 @@ Puppet::Type.newtype(:kubernetes_policy_type) do
   
 
   ensurable
+apply_to_all
 
   
 

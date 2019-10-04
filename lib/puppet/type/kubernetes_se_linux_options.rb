@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_se_linux_options) do
   
 
   ensurable
+apply_to_all
 
   
 

@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_quobyte_volume_source) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

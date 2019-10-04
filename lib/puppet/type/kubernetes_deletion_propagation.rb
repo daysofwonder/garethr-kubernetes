@@ -9,6 +9,7 @@ Puppet::Type.newtype(:kubernetes_deletion_propagation) do
   
 
   ensurable
+apply_to_all
 
   
 

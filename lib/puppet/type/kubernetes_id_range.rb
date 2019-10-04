@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_id_range) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_list_meta) do
   
 
   ensurable
+apply_to_all
 
   
 

@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_tcp_socket_action) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_handler) do
   
 
   ensurable
+apply_to_all
 
   
 

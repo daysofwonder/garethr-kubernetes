@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_replica_set_spec) do
   
 
   ensurable
+apply_to_all
 
   
 

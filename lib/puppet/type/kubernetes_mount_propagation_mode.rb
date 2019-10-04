@@ -9,6 +9,7 @@ Puppet::Type.newtype(:kubernetes_mount_propagation_mode) do
   
 
   ensurable
+apply_to_all
 
   
 

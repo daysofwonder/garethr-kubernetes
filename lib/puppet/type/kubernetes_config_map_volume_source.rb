@@ -13,6 +13,7 @@ The contents of the target ConfigMap's Data field will be presented in a volume 
   
 
   ensurable
+apply_to_all
 
   
 

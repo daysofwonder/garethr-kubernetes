@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_cluster_role) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

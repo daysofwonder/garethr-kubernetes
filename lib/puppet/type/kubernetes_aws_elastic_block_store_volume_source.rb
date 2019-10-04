@@ -13,6 +13,7 @@ An AWS EBS disk must exist before mounting to a container. The disk must also be
   
 
   ensurable
+apply_to_all
 
   
   validate do

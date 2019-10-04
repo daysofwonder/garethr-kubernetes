@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_horizontal_pod_autoscaler_spec) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_pod_anti_affinity) do
   
 
   ensurable
+apply_to_all
 
   
 

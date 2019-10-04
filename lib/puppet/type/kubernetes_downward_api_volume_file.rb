@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_downward_api_volume_file) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

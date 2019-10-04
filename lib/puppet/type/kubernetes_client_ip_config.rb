@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_client_ip_config) do
   
 
   ensurable
+apply_to_all
 
   
 

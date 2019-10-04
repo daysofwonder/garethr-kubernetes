@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_pod_security_policy_spec) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

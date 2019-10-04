@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_session_affinity_config) do
   
 
   ensurable
+apply_to_all
 
   
 

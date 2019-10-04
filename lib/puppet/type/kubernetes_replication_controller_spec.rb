@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_replication_controller_spec) do
   
 
   ensurable
+apply_to_all
 
   
 

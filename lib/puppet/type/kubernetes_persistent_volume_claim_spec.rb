@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_persistent_volume_claim_spec) do
   
 
   ensurable
+apply_to_all
 
   
 

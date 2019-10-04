@@ -9,6 +9,7 @@ Puppet::Type.newtype(:kubernetes_network_policy_spec) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_lifecycle) do
   
 
   ensurable
+apply_to_all
 
   
 

@@ -13,6 +13,7 @@ The contents of the target Secret's Data field will be presented in a projected 
   
 
   ensurable
+apply_to_all
 
   
 

@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_delete_options) do
   
 
   ensurable
+apply_to_all
 
   
 

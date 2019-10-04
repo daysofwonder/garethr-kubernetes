@@ -22,6 +22,7 @@ Puppet::Type.newtype(:kubernetes_endpoints) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

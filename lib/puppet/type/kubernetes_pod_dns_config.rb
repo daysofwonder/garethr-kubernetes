@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_pod_dns_config) do
   
 
   ensurable
+apply_to_all
 
   
 

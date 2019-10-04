@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_volume_projection) do
   
 
   ensurable
+apply_to_all
 
   
 

@@ -9,6 +9,7 @@ Puppet::Type.newtype(:kubernetes_daemon_set_update_strategy) do
   
 
   ensurable
+apply_to_all
 
   
 

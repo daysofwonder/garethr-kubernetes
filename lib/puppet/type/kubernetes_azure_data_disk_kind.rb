@@ -9,6 +9,7 @@ Puppet::Type.newtype(:kubernetes_azure_data_disk_kind) do
   
 
   ensurable
+apply_to_all
 
   
 

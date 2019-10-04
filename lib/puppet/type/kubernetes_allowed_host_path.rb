@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_allowed_host_path) do
   
 
   ensurable
+apply_to_all
 
   
 

@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_component_status_list) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

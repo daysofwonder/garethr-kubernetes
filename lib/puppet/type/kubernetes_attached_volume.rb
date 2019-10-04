@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_attached_volume) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

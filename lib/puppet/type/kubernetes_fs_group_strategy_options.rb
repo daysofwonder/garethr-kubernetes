@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_fs_group_strategy_options) do
   
 
   ensurable
+apply_to_all
 
   
 

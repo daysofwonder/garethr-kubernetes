@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_rolling_update_stateful_set_strategy) do
   
 
   ensurable
+apply_to_all
 
   
 

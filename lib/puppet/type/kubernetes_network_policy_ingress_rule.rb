@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_network_policy_ingress_rule) do
   
 
   ensurable
+apply_to_all
 
   
 

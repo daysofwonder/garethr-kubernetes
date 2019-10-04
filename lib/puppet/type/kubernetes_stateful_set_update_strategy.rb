@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_stateful_set_update_strategy) do
   
 
   ensurable
+apply_to_all
 
   
 

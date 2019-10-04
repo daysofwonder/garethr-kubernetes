@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_pod_readiness_gate) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

@@ -13,6 +13,7 @@ The contents of the target ConfigMap's Data field will be presented in a project
   
 
   ensurable
+apply_to_all
 
   
 

@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_label_selector) do
   
 
   ensurable
+apply_to_all
 
   
 

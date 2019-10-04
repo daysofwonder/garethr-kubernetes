@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_ingress_tls) do
   
 
   ensurable
+apply_to_all
 
   
 

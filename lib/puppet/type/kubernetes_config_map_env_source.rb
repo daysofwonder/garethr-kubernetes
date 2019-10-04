@@ -13,6 +13,7 @@ The contents of the target ConfigMap's Data field will represent the key-value p
   
 
   ensurable
+apply_to_all
 
   
 

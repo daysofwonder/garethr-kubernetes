@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_node_system_info) do
   
 
   ensurable
+apply_to_all
 
   
   validate do

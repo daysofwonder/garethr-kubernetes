@@ -11,6 +11,7 @@ Puppet::Type.newtype(:kubernetes_load_balancer_status) do
   
 
   ensurable
+apply_to_all
 
   
 

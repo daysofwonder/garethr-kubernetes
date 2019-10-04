@@ -18,6 +18,7 @@ The resulting set of endpoints can be viewed as:
   
 
   ensurable
+apply_to_all
 
   
 

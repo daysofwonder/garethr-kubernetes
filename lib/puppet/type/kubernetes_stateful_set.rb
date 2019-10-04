@@ -14,6 +14,7 @@ The StatefulSet guarantees that a given network identity will always map to the 
   
 
   ensurable
+apply_to_all
 
   
 
