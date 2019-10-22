@@ -1,4 +1,5 @@
 require 'puppet'
+require 'puppet/util/network_device'
 
 require_relative '../swagger/provider'
 require_relative '../swagger/fixnumify'
@@ -30,7 +31,7 @@ module PuppetX
         def self.config
           @config ||= begin
             Puppet.initialize_settings unless Puppet[:confdir]
-            file = Puppet::Util::NetworkDevice.current.kubeclient_config  || File.join(Puppet[:confdir], 'kubernetes.conf')
+            file = Puppet::Util::NetworkDevice.current ? Puppet::Util::NetworkDevice.current.kubeclient_config : File.join(Puppet[:confdir], 'kubernetes.conf')
             Puppet.debug("Checking for config file at #{file}")
             Kubeclient::Config.read(file)
           end
