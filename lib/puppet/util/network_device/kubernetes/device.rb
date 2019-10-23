@@ -12,7 +12,7 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
     raise "Device url doesn't exist" unless File.exists?(uri.path)
     @kubeclient_config = uri.path
     @cluster_name = Puppet.settings[:certname]
-    if uri.request
+    if uri.query
       require 'cgi'
       params = CGI.parse(uri.query)
       if Array(params['clustername']).flatten.size > 0
