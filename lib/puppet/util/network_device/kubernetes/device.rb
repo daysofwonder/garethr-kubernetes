@@ -19,14 +19,35 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
         @cluster_name = params['clustername'].first
       end
     end
+
+    load_facts
+  end
+
+  def load_facts
+    Facter.reset
+    dirs = []
+    Puppet.lookup(:current_environment).modules.each do |m|
+      if m.has_external_facts?
+        dir = m.plugin_fact_directory
+        Puppet.debug "Loading external facts from #{dir}"
+        dirs << dir
+      end
+    end
+    # Add system external fact directory if it exists
+    if FileTest.directory?(Puppet[:pluginfactdest])
+      dir = Puppet[:pluginfactdest]
+      Puppet.debug "Loading external facts from #{dir}"
+      dirs << dir
+    end
+    Facter.search_external dirs
+
+    Facter.search(Puppet[:factpath].split(File::PATH_SEPARATOR))
   end
 
   def facts
     {
       'role' => 'k8s',
       'clustername' => cluster_name,
-      'mysqld_version' => '5.7.23',
-      'mysqld_type' => 'mysql'
     }
   end
 end
