@@ -26,7 +26,9 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
       'role' => 'k8s',
       'clustername' => cluster_name,
       'mysqld_version' => '5.7.23',
-      'mysqld_type' => 'mysql'
+      'mysqld_type' => 'mysql',
+      ':mysqld_version' => '5.7.23',
+      ':mysqld_type' => 'mysql'
     }
   end
 end
