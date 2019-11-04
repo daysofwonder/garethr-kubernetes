@@ -24,7 +24,9 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
   def facts
     {
       'role' => 'k8s',
-      'clustername' => cluster_name
+      'clustername' => cluster_name,
+      'mysqld_version' => '5.7.23',
+      'mysqld_type' => 'mysql'
     }
   end
 end
