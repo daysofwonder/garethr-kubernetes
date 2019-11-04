@@ -16,7 +16,7 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
       require 'cgi'
       params = CGI.parse(uri.query)
       if Array(params['clustername']).flatten.size > 0
-        @cluster_name = params['clustername'].first 
+        @cluster_name = params['clustername'].first
       end
     end
   end
@@ -26,9 +26,7 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
       'role' => 'k8s',
       'clustername' => cluster_name,
       'mysqld_version' => '5.7.23',
-      'mysqld_type' => 'mysql',
-      ':mysqld_version' => '5.7.23',
-      ':mysqld_type' => 'mysql'
+      'mysqld_type' => 'mysql'
     }
   end
 end
