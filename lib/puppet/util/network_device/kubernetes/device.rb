@@ -50,6 +50,7 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
       'role' => 'k8s',
       'clustername' => cluster_name,
       'operatingsystem' => 'Ubuntu',
+      'osfamily' => 'Debian',
     }
   end
 end
