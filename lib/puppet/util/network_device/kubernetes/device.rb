@@ -51,6 +51,7 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
       'clustername' => cluster_name,
       'operatingsystem' => 'Ubuntu',
       'osfamily' => 'Debian',
+      'operatingsystemrelease' => '16.04',
     }
   end
 end
