@@ -42,6 +42,7 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
     Facter.search_external dirs
 
     Facter.search(Puppet[:factpath].split(File::PATH_SEPARATOR))
+    Puppet.initialize_facts
   end
 
   def facts
