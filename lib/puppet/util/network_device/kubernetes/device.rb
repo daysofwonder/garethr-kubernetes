@@ -49,6 +49,7 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
     {
       'role' => 'k8s',
       'clustername' => cluster_name,
+      'operatingsystem' => 'Ubuntu',
     }
   end
 end
