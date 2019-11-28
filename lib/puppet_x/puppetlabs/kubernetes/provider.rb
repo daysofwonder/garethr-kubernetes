@@ -85,10 +85,10 @@ module PuppetX
         def self.call(method, *object)
           if v1_client.respond_to?(method)
             v1_client.send(method, *object)
-          elsif beta_client.respond_to?(method)
-            beta_client.send(method, *object)
           elsif v1_app.respond_to?(method)
             v1_app.send(method, *object)
+          elsif beta_client.respond_to?(method)
+            beta_client.send(method, *object)
           else
             rbac_client.send(method, *object)
           end
