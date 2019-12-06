@@ -103,7 +103,7 @@ module PuppetX
           params[:metadata] = {} unless params.key?(:metadata)
           p = params.swagger_symbolize_keys
           object = Object::const_get("Kubeclient::#{klass}").new(p)
-          object.metadata.name = name
+          object.metadata.name = kubename unless kubename.nil?
           object.metadata.namespace = namespace unless namespace.nil?
           object
         end
@@ -208,11 +208,21 @@ module PuppetX
         end
 
         def destroy_instance_of(type, name)
-          call("delete_#{type}", name, namespace)
+          call("delete_#{type}", kubename, namespace)
         end
 
         def call(method, *object)
           self.class.call(method, *object)
+        end
+
+        def kubename
+          # In any case, we need to provide a name.So we either use the one from puppet
+          # or the one from the kubernetes api
+          if self.metadata == :absent
+            resource[:metadata]['name']
+          else
+            self.metadata[:name]
+          end
         end
 
         def namespace
