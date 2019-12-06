@@ -103,7 +103,7 @@ module PuppetX
           params[:metadata] = {} unless params.key?(:metadata)
           p = params.swagger_symbolize_keys
           object = Object::const_get("Kubeclient::#{klass}").new(p)
-          object.metadata.name = kubename unless kubename.nil?
+          object.metadata.name = kubename || name
           object.metadata.namespace = namespace unless namespace.nil?
           object
         end
@@ -219,9 +219,13 @@ module PuppetX
           # In any case, we need to provide a name.So we either use the one from puppet
           # or the one from the kubernetes api
           if self.metadata == :absent
-            resource[:metadata]['name']
+            if resource[:metadata]
+              resource[:metadata]['name']
+            else
+              nil
+            end
           else
-            self.metadata[:name]
+            self.metadata[:name] || nil
           end
         end
 
