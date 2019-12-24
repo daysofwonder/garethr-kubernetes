@@ -40,14 +40,13 @@ apply_to_all
     
       
       newproperty(:spec) do
-        include PuppetX::Puppetlabs::Swagger
-
         desc "Specification of the desired behavior of the Deployment."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
         end
 
+        include PuppetX::Puppetlabs::Swagger::Differ
         def change_to_s(current_value, newvalue)
           property_diff_with_hashdiff(current_value, newvalue)
         end

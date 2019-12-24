@@ -68,8 +68,9 @@ module PuppetX
               first_hash_op = ''
             end
 
-            puts "hash: #{key}, op:'#{first_hash_op}' ci:'#{cond_indent.length}' indent:'#{indent.length}'"
-            printable_hash = h.reduce([]) do |arr, kv|
+            #puts "hash: #{key}, op:'#{first_hash_op}' ci:'#{cond_indent.length}' indent:'#{indent.length}'"
+            additions = get_added_hash_elements_at(key)
+            printable_hash = (h.merge(additions)).reduce([]) do |arr, kv|
               # check key path is affected
               newkey = [key, kv[0].to_s].reject{ |s| s == "" }.join('.')
               op, newval = get_prefix(newkey)
@@ -92,13 +93,27 @@ module PuppetX
         def get_prefix(key)
           d = diffs.find { |d| d[1] == key || key.delete_prefix(d[1]) != key }
           return "" unless d
-          [d[0] + ' ', d[2]]
+          [d[0] + ' ', d[3] || d[2]]
         end
 
         def get_added_array_elements_at(key)
           adds = diffs.select { |d| d[0] == '+' && d[1].delete_prefix(key) =~ /^\[\d+\]$/ }
           return [] unless adds
           adds.map{ |d| d[2] }
+        end
+
+        def get_added_hash_elements_at(key)
+          adds = diffs.select { |d| 
+            d[0] == '+' && child_of(key, d[1]) 
+          }
+          return {} unless adds
+          adds.reduce({}) { |a,v| a.merge({v[1].delete_prefix(key+'.') => v[2]}) }
+        end
+
+        # check that b is direct child of a
+        def child_of(a, b)
+          return false if b.length <= a.length
+          b.start_with?(a) and b.delete_prefix(a).split('.').reject{ |a| a.empty? }.size == 1
         end
 
         def format_op(op, key, oldval, newval, level)
