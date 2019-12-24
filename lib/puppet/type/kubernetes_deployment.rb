@@ -4,9 +4,10 @@
 # are regenerated.
 
 require_relative '../../puppet_x/puppetlabs/swagger/fuzzy_compare'
+require_relative '../../puppet_x/puppetlabs/swagger/differ'
 
 Puppet::Type.newtype(:kubernetes_deployment) do
-  
+
   @doc = "DEPRECATED - This group version of Deployment is deprecated by apps/v1beta2/Deployment. See the release notes for more information. Deployment enables declarative updates for Pods and ReplicaSets."
   
 
@@ -39,12 +40,16 @@ apply_to_all
     
       
       newproperty(:spec) do
-      
-        
+        include PuppetX::Puppetlabs::Swagger
+
         desc "Specification of the desired behavior of the Deployment."
         
         def insync?(is)
           PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+        end
+
+        def change_to_s(current_value, newvalue)
+          property_diff_with_hashdiff(current_value, newvalue)
         end
       end
     
