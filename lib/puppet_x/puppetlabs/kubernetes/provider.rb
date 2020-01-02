@@ -119,6 +119,10 @@ module PuppetX
           end
 
           def set(attr, value)
+            if @object.nil?
+              @object = RecursiveOpenStruct.new(nil, recurse_over_arrays: true)
+              @parent_setter.call(@object)
+            end
             @parent_setter = create_parent_setter(@object, attr)
             @object = @object.send("#{attr}=", value)
             self
@@ -136,6 +140,10 @@ module PuppetX
               @parent_setter = create_parent_setter(@object, attr)
               @object = @object.send(:at, attr)
             else
+              if @object.send(attr).nil?
+                new_object = {}
+                @object.send("#{attr}=", new_object)
+              end
               @parent_setter = create_parent_setter(@object, attr)
               @object = @object.send(attr)
             end
