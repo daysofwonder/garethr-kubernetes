@@ -67,7 +67,13 @@ module PuppetX
         end
 
         def self.list_instances_of(type)
-          call("get_#{type}s")
+          call("get_#{pluralize(type)}")
+        end
+
+        # this is a poor man pluralize, check ActiveSupport for a more general one
+        def self.pluralize(noun)
+          return noun + "s" unless noun.end_with?('s')
+          noun + "es"
         end
 
         def make_object(type, name, params)
