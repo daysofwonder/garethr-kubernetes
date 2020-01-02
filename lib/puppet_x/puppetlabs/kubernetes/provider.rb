@@ -113,9 +113,8 @@ module PuppetX
         end
 
         class ObjectSetter
-          def initialize(obj, klass)
+          def initialize(obj)
             @object = obj
-            @klass = klass
           end
 
           def set(attr, value)
@@ -158,8 +157,8 @@ module PuppetX
         end
 
 
-        def ensure_value_at_path(object, klass, path, value)
-          path.each_with_index.inject(ObjectSetter.new(object, klass)) { |setter, (attr, index)|
+        def ensure_value_at_path(object, path, value)
+          path.each_with_index.inject(ObjectSetter.new(object)) { |setter, (attr, index)|
             if index == (path.size - 1)
               setter.set(attr, value)
             else
@@ -198,9 +197,8 @@ module PuppetX
         end
 
         def apply_applicator(type, object, changes)
-          klass = type.split('_').collect(&:capitalize).join
           changes.each do |path, value|
-            ensure_value_at_path(object, klass, path, value)
+            ensure_value_at_path(object, path, value)
           end
           object
         end
