@@ -4,6 +4,7 @@
 # are regenerated.
 
 require_relative '../../puppet_x/puppetlabs/swagger/fuzzy_compare'
+require_relative '../../puppet_x/puppetlabs/swagger/differ'
 
 Puppet::Type.newtype(:kubernetes_endpoints) do
   
@@ -22,56 +23,35 @@ Puppet::Type.newtype(:kubernetes_endpoints) do
   
 
   ensurable
-apply_to_all
+  
+  apply_to_all
 
   
-  validate do
-    required_properties = [
-    
-      :subsets,
-    
-    ]
-    required_properties.each do |property|
-      # We check for both places so as to cover the puppet resource path as well
-      if self[property].nil? and self.provider.send(property) == :absent
-        fail "You must provide a #{property}"
-      end
-    end
-  end
-  
-
   newparam(:name, namevar: true) do
     desc 'Name of the endpoints.'
   end
-  
+
+  newproperty(:metadata) do
+    desc "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata"
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:subsets, :array_matching => :all) do
+    desc "The set of all endpoints is the union of all subsets. Addresses are placed into subsets according to the IPs they share. A single address with multiple ports, some of which are ready and some of which are not (because they come from different containers) will result in the address being displayed in different subsets for the different ports. No address will appear in both Addresses and NotReadyAddresses in the same subset. Sets of addresses and ports that comprise a service."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:metadata) do
-      
-        
-        desc "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata"
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
-    
-      
-      newproperty(:subsets, :array_matching => :all) do
-      
-        
-        desc "The set of all endpoints is the union of all subsets. Addresses are placed into subsets according to the IPs they share. A single address with multiple ports, some of which are ready and some of which are not (because they come from different containers) will result in the address being displayed in different subsets for the different ports. No address will appear in both Addresses and NotReadyAddresses in the same subset. Sets of addresses and ports that comprise a service."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
+  end
+
 end

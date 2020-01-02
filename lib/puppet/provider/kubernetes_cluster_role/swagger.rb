@@ -11,26 +11,12 @@ Puppet::Type.type(:kubernetes_cluster_role).provide(:swagger, :parent => PuppetX
 
   def self.instance_to_hash(instance)
     {
-    ensure: :present,
-    name: instance.metadata.name,
-    
-      
-    
-      
-    
-      
-        
-        metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-        
-      
-    
-      
-        
-        rules: hash_arrays(instance.rules),
-        
-      
-    
-    object: instance,
+      ensure: :present,
+      name: instance.metadata.name,
+      aggregation_rule: instance.aggregationRule.respond_to?(:to_hash) ? instance.aggregationRule.to_hash : instance.aggregationRule,
+      metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
+      rules: instance.rules.respond_to?(:to_hash) ? instance.rules.to_hash : instance.rules,
+      object: instance,
     }
   end
 
@@ -60,19 +46,9 @@ Puppet::Type.type(:kubernetes_cluster_role).provide(:swagger, :parent => PuppetX
 
   def build_params
     params = {
-    
-      
-    
-      
-    
-      
-        metadata: resource[:metadata],
-      
-    
-      
-        rules: resource[:rules],
-      
-    
+      aggregationRule: resource[:aggregation_rule],
+      metadata: resource[:metadata],
+      rules: resource[:rules],
     }
     params.delete_if { |key, value| value.nil? }
     params

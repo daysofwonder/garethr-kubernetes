@@ -4,6 +4,7 @@
 # are regenerated.
 
 require_relative '../../puppet_x/puppetlabs/swagger/fuzzy_compare'
+require_relative '../../puppet_x/puppetlabs/swagger/differ'
 
 Puppet::Type.newtype(:kubernetes_service_account) do
   
@@ -11,68 +12,53 @@ Puppet::Type.newtype(:kubernetes_service_account) do
   
 
   ensurable
-apply_to_all
+  
+  apply_to_all
 
   
-
   newparam(:name, namevar: true) do
     desc 'Name of the service_account.'
   end
-  
+
+  newproperty(:automount_service_account_token) do
+    desc "AutomountServiceAccountToken indicates whether pods running as this service account should have an API token automatically mounted. Can be overridden at the pod level."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+  end
+
+  newproperty(:image_pull_secrets, :array_matching => :all) do
+    desc "ImagePullSecrets is a list of references to secrets in the same namespace to use for pulling any images in pods that reference this ServiceAccount. ImagePullSecrets are distinct from Secrets because Secrets can be mounted in the pod, but ImagePullSecrets are only accessed by the kubelet. More info: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod"
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+  end
+
+  newproperty(:metadata) do
+    desc "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata"
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:metadata) do
-      
-        
-        desc "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata"
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:secrets, :array_matching => :all) do
+    desc "Secrets is the list of secrets allowed to be used by pods running using this ServiceAccount. More info: https://kubernetes.io/docs/concepts/configuration/secret"
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:secrets, :array_matching => :all) do
-      
-        
-        desc "Secrets is the list of secrets allowed to be used by pods running using this ServiceAccount. More info: https://kubernetes.io/docs/concepts/configuration/secret"
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
-    
-      
-      newproperty(:image_pull_secrets, :array_matching => :all) do
-      
-        
-        desc "ImagePullSecrets is a list of references to secrets in the same namespace to use for pulling any images in pods that reference this ServiceAccount. ImagePullSecrets are distinct from Secrets because Secrets can be mounted in the pod, but ImagePullSecrets are only accessed by the kubelet. More info: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod"
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
-    
-      
-      newproperty(:automount_service_account_token) do
-      
-        
-        desc "AutomountServiceAccountToken indicates whether pods running as this service account should have an API token automatically mounted. Can be overridden at the pod level."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
+  end
+
 end

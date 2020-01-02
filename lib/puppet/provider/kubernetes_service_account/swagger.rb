@@ -11,38 +11,13 @@ Puppet::Type.type(:kubernetes_service_account).provide(:swagger, :parent => Pupp
 
   def self.instance_to_hash(instance)
     {
-    ensure: :present,
-    name: instance.metadata.name,
-    
-      
-    
-      
-    
-      
-        
-        metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-        
-      
-    
-      
-        
-        secrets: hash_arrays(instance.secrets),
-        
-      
-    
-      
-        
-        image_pull_secrets: hash_arrays(instance.imagePullSecrets),
-        
-      
-    
-      
-        
-        automount_service_account_token: instance.automountServiceAccountToken.respond_to?(:to_hash) ? instance.automountServiceAccountToken.to_hash : instance.automountServiceAccountToken,
-        
-      
-    
-    object: instance,
+      ensure: :present,
+      name: instance.metadata.name,
+      automount_service_account_token: instance.automountServiceAccountToken.respond_to?(:to_hash) ? instance.automountServiceAccountToken.to_hash : instance.automountServiceAccountToken,
+      image_pull_secrets: instance.imagePullSecrets.respond_to?(:to_hash) ? instance.imagePullSecrets.to_hash : instance.imagePullSecrets,
+      metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
+      secrets: instance.secrets.respond_to?(:to_hash) ? instance.secrets.to_hash : instance.secrets,
+      object: instance,
     }
   end
 
@@ -72,27 +47,10 @@ Puppet::Type.type(:kubernetes_service_account).provide(:swagger, :parent => Pupp
 
   def build_params
     params = {
-    
-      
-    
-      
-    
-      
-        metadata: resource[:metadata],
-      
-    
-      
-        secrets: resource[:secrets],
-      
-    
-      
-        imagePullSecrets: resource[:image_pull_secrets],
-      
-    
-      
-        automountServiceAccountToken: resource[:automount_service_account_token],
-      
-    
+      automountServiceAccountToken: resource[:automount_service_account_token],
+      imagePullSecrets: resource[:image_pull_secrets],
+      metadata: resource[:metadata],
+      secrets: resource[:secrets],
     }
     params.delete_if { |key, value| value.nil? }
     params

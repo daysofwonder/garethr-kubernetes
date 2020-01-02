@@ -4,6 +4,7 @@
 # are regenerated.
 
 require_relative '../../puppet_x/puppetlabs/swagger/fuzzy_compare'
+require_relative '../../puppet_x/puppetlabs/swagger/differ'
 
 Puppet::Type.newtype(:kubernetes_role_binding) do
   
@@ -11,17 +12,13 @@ Puppet::Type.newtype(:kubernetes_role_binding) do
   
 
   ensurable
-apply_to_all
-
   
-  validate do
+  apply_to_all
+
+    validate do
     required_properties = [
-    
-      :subjects,
-    
-      :role_ref,
-    
-    ]
+          :role_ref,
+        ]
     required_properties.each do |property|
       # We check for both places so as to cover the puppet resource path as well
       if self[property].nil? and self.provider.send(property) == :absent
@@ -30,52 +27,45 @@ apply_to_all
     end
   end
   
-
   newparam(:name, namevar: true) do
     desc 'Name of the role_binding.'
   end
-  
+
+  newproperty(:metadata) do
+    desc "Standard object's metadata."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:role_ref) do
+    desc "RoleRef can reference a Role in the current namespace or a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:metadata) do
-      
-        
-        desc "Standard object's metadata."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:subjects, :array_matching => :all) do
+    desc "Subjects holds references to the objects the role applies to."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:subjects, :array_matching => :all) do
-      
-        
-        desc "Subjects holds references to the objects the role applies to."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
-    
-      
-      newproperty(:role_ref) do
-      
-        
-        desc "RoleRef can reference a Role in the current namespace or a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
+  end
+
 end

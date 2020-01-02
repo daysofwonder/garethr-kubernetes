@@ -4,24 +4,21 @@
 # are regenerated.
 
 require_relative '../../puppet_x/puppetlabs/swagger/fuzzy_compare'
+require_relative '../../puppet_x/puppetlabs/swagger/differ'
 
 Puppet::Type.newtype(:kubernetes_event) do
   
-  @doc = "Event is a report of an event somewhere in the cluster."
+  @doc = "Event is a report of an event somewhere in the cluster. It generally denotes some state change in the system."
   
 
   ensurable
-apply_to_all
-
   
-  validate do
+  apply_to_all
+
+    validate do
     required_properties = [
-    
-      :metadata,
-    
-      :involved_object,
-    
-    ]
+          :event_time,
+        ]
     required_properties.each do |property|
       # We check for both places so as to cover the puppet resource path as well
       if self[property].nil? and self.provider.send(property) == :absent
@@ -30,130 +27,182 @@ apply_to_all
     end
   end
   
-
   newparam(:name, namevar: true) do
     desc 'Name of the event.'
   end
-  
+
+  newproperty(:action) do
+    desc "What action was taken/failed regarding to the regarding object."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+  end
+
+  newproperty(:deprecated_count) do
+    desc "Deprecated field assuring backward compatibility with core.v1 Event type"
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+  end
+
+  newproperty(:deprecated_first_timestamp) do
+    desc "Deprecated field assuring backward compatibility with core.v1 Event type"
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:metadata) do
-      
-        
-        desc "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata"
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:deprecated_last_timestamp) do
+    desc "Deprecated field assuring backward compatibility with core.v1 Event type"
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:involved_object) do
-      
-        
-        desc "The object that this event is about."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:deprecated_source) do
+    desc "Deprecated field assuring backward compatibility with core.v1 Event type"
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:reason) do
-      
-        
-        desc "This should be a short, machine understandable string that gives the reason for the transition into the object's current status."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:event_time) do
+    desc "Required. Time when this Event was first observed."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:message) do
-      
-        
-        desc "A human-readable description of the status of this operation."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:metadata) do
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:source) do
-      
-        
-        desc "The component reporting this event. Should be a short machine understandable string."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:note) do
+    desc "Optional. A human-readable description of the status of this operation. Maximal length of the note is 1kB, but libraries should be prepared to handle values up to 64kB."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:first_timestamp) do
-      
-        
-        desc "The time at which the event was first recorded. (Time of server receipt is in TypeMeta.)"
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+  end
+
+  newproperty(:reason) do
+    desc "Why the action was taken."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+  end
+
+  newproperty(:regarding) do
+    desc "The object this Event is about. In most cases it's an Object reporting controller implements. E.g. ReplicaSetController implements ReplicaSets and this event is emitted because it acts on some changes in a ReplicaSet object."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:last_timestamp) do
-      
-        
-        desc "The time at which the most recent occurrence of this event was recorded."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:related) do
+    desc "Optional secondary object for more complex actions. E.g. when regarding object triggers a creation or deletion of related object."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:count) do
-      
-        
-        desc "The number of times this event has occurred."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:reporting_controller) do
+    desc "Name of the controller that emitted this Event, e.g. `kubernetes.io/kubelet`."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:type) do
-      
-        
-        desc "Type of this event (Normal, Warning), new types could be added in the future"
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+  end
+
+  newproperty(:reporting_instance) do
+    desc "ID of the controller instance, e.g. `kubelet-xyzf`."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+  end
+
+  newproperty(:series) do
+    desc "Data about the Event series this event represents or nil if it's a singleton Event."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
+    
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
+    
+  end
+
+  newproperty(:type) do
+    desc "Type of this event (Normal, Warning), new types could be added in the future."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
+    
+  end
+
 end

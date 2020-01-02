@@ -11,26 +11,11 @@ Puppet::Type.type(:kubernetes_pod_template).provide(:swagger, :parent => PuppetX
 
   def self.instance_to_hash(instance)
     {
-    ensure: :present,
-    name: instance.metadata.name,
-    
-      
-    
-      
-    
-      
-        
-        metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-        
-      
-    
-      
-        
-        template: instance.template.respond_to?(:to_hash) ? instance.template.to_hash : instance.template,
-        
-      
-    
-    object: instance,
+      ensure: :present,
+      name: instance.metadata.name,
+      metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
+      template: instance.template.respond_to?(:to_hash) ? instance.template.to_hash : instance.template,
+      object: instance,
     }
   end
 
@@ -60,19 +45,8 @@ Puppet::Type.type(:kubernetes_pod_template).provide(:swagger, :parent => PuppetX
 
   def build_params
     params = {
-    
-      
-    
-      
-    
-      
-        metadata: resource[:metadata],
-      
-    
-      
-        template: resource[:template],
-      
-    
+      metadata: resource[:metadata],
+      template: resource[:template],
     }
     params.delete_if { |key, value| value.nil? }
     params

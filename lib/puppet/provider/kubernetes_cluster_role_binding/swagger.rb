@@ -11,32 +11,12 @@ Puppet::Type.type(:kubernetes_cluster_role_binding).provide(:swagger, :parent =>
 
   def self.instance_to_hash(instance)
     {
-    ensure: :present,
-    name: instance.metadata.name,
-    
-      
-    
-      
-    
-      
-        
-        metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-        
-      
-    
-      
-        
-        subjects: hash_arrays(instance.subjects),
-        
-      
-    
-      
-        
-        role_ref: instance.roleRef.respond_to?(:to_hash) ? instance.roleRef.to_hash : instance.roleRef,
-        
-      
-    
-    object: instance,
+      ensure: :present,
+      name: instance.metadata.name,
+      metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
+      role_ref: instance.roleRef.respond_to?(:to_hash) ? instance.roleRef.to_hash : instance.roleRef,
+      subjects: instance.subjects.respond_to?(:to_hash) ? instance.subjects.to_hash : instance.subjects,
+      object: instance,
     }
   end
 
@@ -66,23 +46,9 @@ Puppet::Type.type(:kubernetes_cluster_role_binding).provide(:swagger, :parent =>
 
   def build_params
     params = {
-    
-      
-    
-      
-    
-      
-        metadata: resource[:metadata],
-      
-    
-      
-        subjects: resource[:subjects],
-      
-    
-      
-        roleRef: resource[:role_ref],
-      
-    
+      metadata: resource[:metadata],
+      roleRef: resource[:role_ref],
+      subjects: resource[:subjects],
     }
     params.delete_if { |key, value| value.nil? }
     params

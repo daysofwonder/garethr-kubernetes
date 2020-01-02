@@ -11,26 +11,11 @@ Puppet::Type.type(:kubernetes_eviction).provide(:swagger, :parent => PuppetX::Pu
 
   def self.instance_to_hash(instance)
     {
-    ensure: :present,
-    name: instance.metadata.name,
-    
-      
-    
-      
-    
-      
-        
-        metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-        
-      
-    
-      
-        
-        delete_options: instance.deleteOptions.respond_to?(:to_hash) ? instance.deleteOptions.to_hash : instance.deleteOptions,
-        
-      
-    
-    object: instance,
+      ensure: :present,
+      name: instance.metadata.name,
+      delete_options: instance.deleteOptions.respond_to?(:to_hash) ? instance.deleteOptions.to_hash : instance.deleteOptions,
+      metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
+      object: instance,
     }
   end
 
@@ -60,19 +45,8 @@ Puppet::Type.type(:kubernetes_eviction).provide(:swagger, :parent => PuppetX::Pu
 
   def build_params
     params = {
-    
-      
-    
-      
-    
-      
-        metadata: resource[:metadata],
-      
-    
-      
-        deleteOptions: resource[:delete_options],
-      
-    
+      deleteOptions: resource[:delete_options],
+      metadata: resource[:metadata],
     }
     params.delete_if { |key, value| value.nil? }
     params

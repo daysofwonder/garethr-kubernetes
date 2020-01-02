@@ -11,32 +11,12 @@ Puppet::Type.type(:kubernetes_deployment_rollback).provide(:swagger, :parent => 
 
   def self.instance_to_hash(instance)
     {
-    ensure: :present,
-    name: instance.metadata.name,
-    
-      
-    
-      
-    
-      
-        
-        name: instance.name.respond_to?(:to_hash) ? instance.name.to_hash : instance.name,
-        
-      
-    
-      
-        
-        updated_annotations: instance.updatedAnnotations.respond_to?(:to_hash) ? instance.updatedAnnotations.to_hash : instance.updatedAnnotations,
-        
-      
-    
-      
-        
-        rollback_to: instance.rollbackTo.respond_to?(:to_hash) ? instance.rollbackTo.to_hash : instance.rollbackTo,
-        
-      
-    
-    object: instance,
+      ensure: :present,
+      name: instance.metadata.name,
+      name: instance.name.respond_to?(:to_hash) ? instance.name.to_hash : instance.name,
+      rollback_to: instance.rollbackTo.respond_to?(:to_hash) ? instance.rollbackTo.to_hash : instance.rollbackTo,
+      updated_annotations: instance.updatedAnnotations.respond_to?(:to_hash) ? instance.updatedAnnotations.to_hash : instance.updatedAnnotations,
+      object: instance,
     }
   end
 
@@ -66,23 +46,9 @@ Puppet::Type.type(:kubernetes_deployment_rollback).provide(:swagger, :parent => 
 
   def build_params
     params = {
-    
-      
-    
-      
-    
-      
-        name: resource[:name],
-      
-    
-      
-        updatedAnnotations: resource[:updated_annotations],
-      
-    
-      
-        rollbackTo: resource[:rollback_to],
-      
-    
+      name: resource[:name],
+      rollbackTo: resource[:rollback_to],
+      updatedAnnotations: resource[:updated_annotations],
     }
     params.delete_if { |key, value| value.nil? }
     params

@@ -4,22 +4,21 @@
 # are regenerated.
 
 require_relative '../../puppet_x/puppetlabs/swagger/fuzzy_compare'
+require_relative '../../puppet_x/puppetlabs/swagger/differ'
 
 Puppet::Type.newtype(:kubernetes_controller_revision) do
   
-  @doc = "ControllerRevision implements an immutable snapshot of state data. Clients are responsible for serializing and deserializing the objects that contain their internal state. Once a ControllerRevision has been successfully created, it can not be updated. The API Server will fail validation of all requests that attempt to mutate the Data field. ControllerRevisions may, however, be deleted. Note that, due to its use by both the DaemonSet and StatefulSet controllers for update and rollback, this object is beta. However, it may be subject to name and representation changes in future releases, and clients should not depend on its stability. It is primarily for internal use by controllers."
+  @doc = "DEPRECATED - This group version of ControllerRevision is deprecated by apps/v1/ControllerRevision. See the release notes for more information. ControllerRevision implements an immutable snapshot of state data. Clients are responsible for serializing and deserializing the objects that contain their internal state. Once a ControllerRevision has been successfully created, it can not be updated. The API Server will fail validation of all requests that attempt to mutate the Data field. ControllerRevisions may, however, be deleted. Note that, due to its use by both the DaemonSet and StatefulSet controllers for update and rollback, this object is beta. However, it may be subject to name and representation changes in future releases, and clients should not depend on its stability. It is primarily for internal use by controllers."
   
 
   ensurable
-apply_to_all
-
   
-  validate do
+  apply_to_all
+
+    validate do
     required_properties = [
-    
-      :revision,
-    
-    ]
+          :revision,
+        ]
     required_properties.each do |property|
       # We check for both places so as to cover the puppet resource path as well
       if self[property].nil? and self.provider.send(property) == :absent
@@ -28,52 +27,45 @@ apply_to_all
     end
   end
   
-
   newparam(:name, namevar: true) do
     desc 'Name of the controller_revision.'
   end
-  
+
+  newproperty(:data) do
+    desc "Data is the serialized representation of the state."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:metadata) do
+    desc "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata"
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:metadata) do
-      
-        
-        desc "Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata"
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-  
+  end
+
+  newproperty(:revision) do
+    desc "Revision indicates the revision of the state represented by Data."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-      
-      newproperty(:data) do
-      
-        
-        desc "Data is the serialized representation of the state."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
-    
-      
-      newproperty(:revision) do
-      
-        
-        desc "Revision indicates the revision of the state represented by Data."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
+  end
+
 end

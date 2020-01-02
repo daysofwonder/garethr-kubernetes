@@ -4,6 +4,7 @@
 # are regenerated.
 
 require_relative '../../puppet_x/puppetlabs/swagger/fuzzy_compare'
+require_relative '../../puppet_x/puppetlabs/swagger/differ'
 
 Puppet::Type.newtype(:kubernetes_deployment_rollback) do
   
@@ -11,17 +12,14 @@ Puppet::Type.newtype(:kubernetes_deployment_rollback) do
   
 
   ensurable
-apply_to_all
-
   
-  validate do
+  apply_to_all
+
+    validate do
     required_properties = [
-    
-      :name,
-    
-      :rollback_to,
-    
-    ]
+          :name,
+          :rollback_to,
+        ]
     required_properties.each do |property|
       # We check for both places so as to cover the puppet resource path as well
       if self[property].nil? and self.provider.send(property) == :absent
@@ -30,52 +28,40 @@ apply_to_all
     end
   end
   
-
   newparam(:name, namevar: true) do
     desc 'Name of the deployment_rollback.'
   end
-  
+
+  newproperty(:name) do
+    desc "Required: This must match the Name of a deployment."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+  end
+
+  newproperty(:rollback_to) do
+    desc "The config of this deployment rollback."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-      
-      newproperty(:name) do
-      
-        
-        desc "Required: This must match the Name of a deployment."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+  end
+
+  newproperty(:updated_annotations) do
+    desc "The annotations to be updated to a deployment"
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
-    
-      
-      newproperty(:updated_annotations) do
-      
-        
-        desc "The annotations to be updated to a deployment"
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
-    
-      
-      newproperty(:rollback_to) do
-      
-        
-        desc "The config of this deployment rollback."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
+  end
+
 end

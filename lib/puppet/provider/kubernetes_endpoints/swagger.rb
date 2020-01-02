@@ -11,26 +11,11 @@ Puppet::Type.type(:kubernetes_endpoints).provide(:swagger, :parent => PuppetX::P
 
   def self.instance_to_hash(instance)
     {
-    ensure: :present,
-    name: instance.metadata.name,
-    
-      
-    
-      
-    
-      
-        
-        metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-        
-      
-    
-      
-        
-        subsets: hash_arrays(instance.subsets),
-        
-      
-    
-    object: instance,
+      ensure: :present,
+      name: instance.metadata.name,
+      metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
+      subsets: instance.subsets.respond_to?(:to_hash) ? instance.subsets.to_hash : instance.subsets,
+      object: instance,
     }
   end
 
@@ -60,19 +45,8 @@ Puppet::Type.type(:kubernetes_endpoints).provide(:swagger, :parent => PuppetX::P
 
   def build_params
     params = {
-    
-      
-    
-      
-    
-      
-        metadata: resource[:metadata],
-      
-    
-      
-        subsets: resource[:subsets],
-      
-    
+      metadata: resource[:metadata],
+      subsets: resource[:subsets],
     }
     params.delete_if { |key, value| value.nil? }
     params

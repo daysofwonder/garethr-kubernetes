@@ -11,34 +11,12 @@ Puppet::Type.type(:kubernetes_secret).provide(:swagger, :parent => PuppetX::Pupp
 
   def self.instance_to_hash(instance)
     {
-    ensure: :present,
-    name: instance.metadata.name,
-    
-      
-    
-      
-    
-      
-        
-        metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-        
-      
-    
-      
-        
-        data: instance.data.respond_to?(:to_hash) ? instance.data.to_hash : instance.data,
-        
-      
-    
-      
-    
-      
-        
-        type: instance.type.respond_to?(:to_hash) ? instance.type.to_hash : instance.type,
-        
-      
-    
-    object: instance,
+      ensure: :present,
+      name: instance.metadata.name,
+      data: instance.data.respond_to?(:to_hash) ? instance.data.to_hash : instance.data,
+      metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
+      type: instance.type.respond_to?(:to_hash) ? instance.type.to_hash : instance.type,
+      object: instance,
     }
   end
 
@@ -68,25 +46,9 @@ Puppet::Type.type(:kubernetes_secret).provide(:swagger, :parent => PuppetX::Pupp
 
   def build_params
     params = {
-    
-      
-    
-      
-    
-      
-        metadata: resource[:metadata],
-      
-    
-      
-        data: resource[:data],
-      
-    
-      
-    
-      
-        type: resource[:type],
-      
-    
+      data: resource[:data],
+      metadata: resource[:metadata],
+      type: resource[:type],
     }
     params.delete_if { |key, value| value.nil? }
     params

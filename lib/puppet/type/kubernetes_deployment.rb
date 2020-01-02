@@ -7,63 +7,59 @@ require_relative '../../puppet_x/puppetlabs/swagger/fuzzy_compare'
 require_relative '../../puppet_x/puppetlabs/swagger/differ'
 
 Puppet::Type.newtype(:kubernetes_deployment) do
-
+  
   @doc = "DEPRECATED - This group version of Deployment is deprecated by apps/v1beta2/Deployment. See the release notes for more information. Deployment enables declarative updates for Pods and ReplicaSets."
   
 
   ensurable
-apply_to_all
+  
+  apply_to_all
 
   
-
   newparam(:name, namevar: true) do
     desc 'Name of the deployment.'
   end
-  
-    
-  
-    
-  
-    
-      
-      newproperty(:metadata) do
-      
-        
-        desc "Standard object metadata."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
-    
-  
-    
-      
-      newproperty(:spec) do
-        desc "Specification of the desired behavior of the Deployment."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
 
-        include PuppetX::Puppetlabs::Swagger::Differ
-        def change_to_s(current_value, newvalue)
-          property_diff_with_hashdiff(current_value, newvalue)
-        end
-      end
+  newproperty(:metadata) do
+    desc "Standard object metadata."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
     
-      
-      newproperty(:status) do
-      
-        
-        desc "Most recently observed status of the Deployment."
-        
-        def insync?(is)
-          PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
-        end
-      end
+  end
+
+  newproperty(:spec) do
+    desc "Specification of the desired behavior of the Deployment."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
     
-  
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
+    
+  end
+
+  newproperty(:status) do
+    desc "Most recently observed status of the Deployment."
+
+    def insync?(is)
+      PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
+    
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
+    
+  end
+
 end

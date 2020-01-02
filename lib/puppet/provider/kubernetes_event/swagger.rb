@@ -11,68 +11,24 @@ Puppet::Type.type(:kubernetes_event).provide(:swagger, :parent => PuppetX::Puppe
 
   def self.instance_to_hash(instance)
     {
-    ensure: :present,
-    name: instance.metadata.name,
-    
-      
-    
-      
-    
-      
-        
-        metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-        
-      
-    
-      
-        
-        involved_object: instance.involvedObject.respond_to?(:to_hash) ? instance.involvedObject.to_hash : instance.involvedObject,
-        
-      
-    
-      
-        
-        reason: instance.reason.respond_to?(:to_hash) ? instance.reason.to_hash : instance.reason,
-        
-      
-    
-      
-        
-        message: instance.message.respond_to?(:to_hash) ? instance.message.to_hash : instance.message,
-        
-      
-    
-      
-        
-        source: instance.source.respond_to?(:to_hash) ? instance.source.to_hash : instance.source,
-        
-      
-    
-      
-        
-        first_timestamp: instance.firstTimestamp.respond_to?(:to_hash) ? instance.firstTimestamp.to_hash : instance.firstTimestamp,
-        
-      
-    
-      
-        
-        last_timestamp: instance.lastTimestamp.respond_to?(:to_hash) ? instance.lastTimestamp.to_hash : instance.lastTimestamp,
-        
-      
-    
-      
-        
-        count: instance.count.respond_to?(:to_hash) ? instance.count.to_hash : instance.count,
-        
-      
-    
-      
-        
-        type: instance.type.respond_to?(:to_hash) ? instance.type.to_hash : instance.type,
-        
-      
-    
-    object: instance,
+      ensure: :present,
+      name: instance.metadata.name,
+      action: instance.action.respond_to?(:to_hash) ? instance.action.to_hash : instance.action,
+      deprecated_count: instance.deprecatedCount.respond_to?(:to_hash) ? instance.deprecatedCount.to_hash : instance.deprecatedCount,
+      deprecated_first_timestamp: instance.deprecatedFirstTimestamp.respond_to?(:to_hash) ? instance.deprecatedFirstTimestamp.to_hash : instance.deprecatedFirstTimestamp,
+      deprecated_last_timestamp: instance.deprecatedLastTimestamp.respond_to?(:to_hash) ? instance.deprecatedLastTimestamp.to_hash : instance.deprecatedLastTimestamp,
+      deprecated_source: instance.deprecatedSource.respond_to?(:to_hash) ? instance.deprecatedSource.to_hash : instance.deprecatedSource,
+      event_time: instance.eventTime.respond_to?(:to_hash) ? instance.eventTime.to_hash : instance.eventTime,
+      metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
+      note: instance.note.respond_to?(:to_hash) ? instance.note.to_hash : instance.note,
+      reason: instance.reason.respond_to?(:to_hash) ? instance.reason.to_hash : instance.reason,
+      regarding: instance.regarding.respond_to?(:to_hash) ? instance.regarding.to_hash : instance.regarding,
+      related: instance.related.respond_to?(:to_hash) ? instance.related.to_hash : instance.related,
+      reporting_controller: instance.reportingController.respond_to?(:to_hash) ? instance.reportingController.to_hash : instance.reportingController,
+      reporting_instance: instance.reportingInstance.respond_to?(:to_hash) ? instance.reportingInstance.to_hash : instance.reportingInstance,
+      series: instance.series.respond_to?(:to_hash) ? instance.series.to_hash : instance.series,
+      type: instance.type.respond_to?(:to_hash) ? instance.type.to_hash : instance.type,
+      object: instance,
     }
   end
 
@@ -102,47 +58,21 @@ Puppet::Type.type(:kubernetes_event).provide(:swagger, :parent => PuppetX::Puppe
 
   def build_params
     params = {
-    
-      
-    
-      
-    
-      
-        metadata: resource[:metadata],
-      
-    
-      
-        involvedObject: resource[:involved_object],
-      
-    
-      
-        reason: resource[:reason],
-      
-    
-      
-        message: resource[:message],
-      
-    
-      
-        source: resource[:source],
-      
-    
-      
-        firstTimestamp: resource[:first_timestamp],
-      
-    
-      
-        lastTimestamp: resource[:last_timestamp],
-      
-    
-      
-        count: resource[:count],
-      
-    
-      
-        type: resource[:type],
-      
-    
+      action: resource[:action],
+      deprecatedCount: resource[:deprecated_count],
+      deprecatedFirstTimestamp: resource[:deprecated_first_timestamp],
+      deprecatedLastTimestamp: resource[:deprecated_last_timestamp],
+      deprecatedSource: resource[:deprecated_source],
+      eventTime: resource[:event_time],
+      metadata: resource[:metadata],
+      note: resource[:note],
+      reason: resource[:reason],
+      regarding: resource[:regarding],
+      related: resource[:related],
+      reportingController: resource[:reporting_controller],
+      reportingInstance: resource[:reporting_instance],
+      series: resource[:series],
+      type: resource[:type],
     }
     params.delete_if { |key, value| value.nil? }
     params
