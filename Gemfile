@@ -24,5 +24,7 @@ group :development do
   gem "puppet-blacksmith"
   gem "guard-rake"
   gem "pry"
+  gem "pry-coolline"
+  gem "awesome_print"
   gem "yard"
 end
