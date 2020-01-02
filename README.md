@@ -199,3 +199,27 @@ Much of the code for this module is auto-generated using the
 project. This means modifications to the types and providers should be
 done there, rather than within this project. Files which are
 auto-generated should have a suitable comment indicating as such.
+
+## Updating kubernetes types/providers
+
+The kubernetes types and providers are generated files.
+
+To generate a new version from a running cluster, first fetch the OpenAPI definition:
+
+~~~sh
+% kubectl proxy
+Starting to serve on 127.0.0.1:8001
+% curl http://127.0.0.1:8001/openapi/v2 > json/openapi-1.14.6.json
+~~~
+
+Then run the embedded puppet type generator:
+
+~~~sh
+% bundle exec bin/puppet-swagger-generator --schema json/openapi-1.14.6.json --out .
+generating: core/v1.Namespace
+generating: core/v1.Binding
+generating: core/v1.ConfigMap
+generating: core/v1.Endpoints
+~~~
+
+(warning it generates the files directly in the `lib/puppet` folder)

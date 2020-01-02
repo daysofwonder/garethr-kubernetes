@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require File.expand_path("../../lib/puppet_x/puppetlabs/swagger/generator/command", __FILE__)
+
+PuppetX::Puppetlabs::Swagger::Generator::Command.run

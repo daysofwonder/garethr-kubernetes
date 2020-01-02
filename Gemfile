@@ -19,6 +19,7 @@ group :test do
 end
 
 group :development do
+  gem "clamp" # for puppet-swagger-generator
   gem "travis"
   gem "travis-lint"
   gem "puppet-blacksmith"
