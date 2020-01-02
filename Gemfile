@@ -27,4 +27,5 @@ group :development do
   gem "pry-coolline"
   gem "awesome_print"
   gem "yard"
+  gem "solargraph"
 end
