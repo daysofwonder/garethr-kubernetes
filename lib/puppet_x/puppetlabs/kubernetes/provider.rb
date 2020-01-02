@@ -4,19 +4,6 @@ require 'puppet/util/network_device'
 require_relative '../swagger/provider'
 require_relative '../swagger/fixnumify'
 
-# With the Kubernetes proxy on OpenShift (or maybe a change in Kubernetes 1.2)
-# the API requires that the accept headers be correctly set. At the moment this
-# is not done nor exposed by the client library. So lets monkeypatch it to allow
-# us to override the headers.
-module Kubeclient
-  class Client
-    def headers=(value)
-      @headers = value
-    end
-  end
-end
-
-
 module PuppetX
   module Puppetlabs
     module Kubernetes
@@ -42,44 +29,29 @@ module PuppetX
           subject
         end
 
-        def self.v1_client
+        def self.base_client(endpoint = '', version = '')
           client = ::Kubeclient::Client.new(
-            config.context.api_endpoint,
-            config.context.api_version,
+            "#{config.context.api_endpoint}#{endpoint}",
+            "#{config.context.api_version}#{version}",
             ssl_options: config.context.ssl_options,
             auth_options: config.context.auth_options,
           )
-          add_headers(client)
+        end
+
+        def self.v1_client
+          self.base_client()
         end
 
         def self.beta_client
-          client = ::Kubeclient::Client.new(
-            "#{config.context.api_endpoint}/apis/extensions",
-            "#{config.context.api_version}beta1",
-            ssl_options: config.context.ssl_options,
-            auth_options: config.context.auth_options,
-          )
-          add_headers(client)
+          self.base_client('/apis/extensions', 'beta1')
         end
 
         def self.rbac_client
-          client = ::Kubeclient::Client.new(
-            "#{config.context.api_endpoint}/apis/rbac.authorization.k8s.io",
-            "#{config.context.api_version}",
-            ssl_options: config.context.ssl_options,
-            auth_options: config.context.auth_options,
-          )
-          add_headers(client)
+          self.base_client('/apis/rbac.authorization.k8s.io')
         end
 
         def self.v1_app
-          client = ::Kubeclient::Client.new(
-            "#{config.context.api_endpoint}/apis/apps",
-            config.context.api_version,
-            ssl_options: config.context.ssl_options,
-            auth_options: config.context.auth_options,
-          )
-          add_headers(client)
+          self.base_client('/apis/apps')
         end
 
         def self.call(method, *object)
@@ -99,10 +71,9 @@ module PuppetX
         end
 
         def make_object(type, name, params)
-          klass = type.split('_').collect(&:capitalize).join
           params[:metadata] = {} unless params.key?(:metadata)
           p = params.swagger_symbolize_keys
-          object = Object::const_get("Kubeclient::#{klass}").new(p)
+          object = Kubeclient::Resource.new(p)
           object.metadata.name = name
           object.metadata.namespace = namespace unless namespace.nil?
           object
@@ -119,7 +90,7 @@ module PuppetX
 
           def set(attr, value)
             if @object.nil?
-              @object = RecursiveOpenStruct.new(nil, recurse_over_arrays: true)
+              @object = {}
               @parent_setter.call(@object)
             end
             @parent_setter = create_parent_setter(@object, attr)
@@ -134,7 +105,7 @@ module PuppetX
                 @parent_setter.call(@object)
               end
               if @object.send(:at, attr).nil?
-                @object << RecursiveOpenStruct.new(nil, recurse_over_arrays: true)
+                @object << {}
               end
               @parent_setter = create_parent_setter(@object, attr)
               @object = @object.send(:at, attr)

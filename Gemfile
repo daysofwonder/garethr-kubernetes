@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "kubeclient", '~> 2.5.0'
+gem "kubeclient", '~> 4.6.0'
 gem "recursive-open-struct", "1.0.5"
 gem "hashdiff"
 
