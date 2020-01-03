@@ -81,6 +81,11 @@ StorageClasses are non-namespaced; the name of the storage class according to et
       PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
     end
     
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
+    
   end
 
   newproperty(:provisioner) do

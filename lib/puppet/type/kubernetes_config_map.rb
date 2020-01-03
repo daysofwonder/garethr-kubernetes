@@ -27,6 +27,11 @@ Puppet::Type.newtype(:kubernetes_config_map) do
       PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
     end
     
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
+    end
+    
   end
 
   newproperty(:data) do
@@ -34,6 +39,11 @@ Puppet::Type.newtype(:kubernetes_config_map) do
 
     def insync?(is)
       PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
+    end
+    
+    include PuppetX::Puppetlabs::Swagger::Differ
+    def change_to_s(current_value, newvalue)
+      property_diff_with_hashdiff(current_value, newvalue)
     end
     
   end

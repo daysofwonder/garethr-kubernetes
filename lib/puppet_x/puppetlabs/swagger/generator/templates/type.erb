@@ -49,7 +49,7 @@ Puppet::Type.newtype(:<%= namespace %>_<%= name %>) do
     def insync?(is)
       PuppetX::Puppetlabs::Swagger::Utils::fuzzy_compare(is, should)
     end
-    <% if details.include?('$ref') %>
+    <% if details.include?('$ref') or details['type'] == 'object' %>
     include PuppetX::Puppetlabs::Swagger::Differ
     def change_to_s(current_value, newvalue)
       property_diff_with_hashdiff(current_value, newvalue)
