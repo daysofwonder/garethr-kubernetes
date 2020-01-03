@@ -12,7 +12,7 @@ Puppet::Type.type(:kubernetes_controller_revision).provide(:swagger, :parent => 
   def self.instance_to_hash(instance)
     {
       ensure: :present,
-      name: instance.metadata.name,
+      name: instance_name(instance),
       data: instance.data.respond_to?(:to_hash) ? instance.data.to_hash : instance.data,
       metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
       revision: instance.revision.respond_to?(:to_hash) ? instance.revision.to_hash : instance.revision,

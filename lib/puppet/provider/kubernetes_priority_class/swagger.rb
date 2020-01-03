@@ -12,7 +12,7 @@ Puppet::Type.type(:kubernetes_priority_class).provide(:swagger, :parent => Puppe
   def self.instance_to_hash(instance)
     {
       ensure: :present,
-      name: instance.metadata.name,
+      name: instance_name(instance),
       description: instance.description.respond_to?(:to_hash) ? instance.description.to_hash : instance.description,
       global_default: instance.globalDefault.respond_to?(:to_hash) ? instance.globalDefault.to_hash : instance.globalDefault,
       metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,

@@ -12,7 +12,7 @@ Puppet::Type.type(:kubernetes_event).provide(:swagger, :parent => PuppetX::Puppe
   def self.instance_to_hash(instance)
     {
       ensure: :present,
-      name: instance.metadata.name,
+      name: instance_name(instance),
       action: instance.action.respond_to?(:to_hash) ? instance.action.to_hash : instance.action,
       deprecated_count: instance.deprecatedCount.respond_to?(:to_hash) ? instance.deprecatedCount.to_hash : instance.deprecatedCount,
       deprecated_first_timestamp: instance.deprecatedFirstTimestamp.respond_to?(:to_hash) ? instance.deprecatedFirstTimestamp.to_hash : instance.deprecatedFirstTimestamp,

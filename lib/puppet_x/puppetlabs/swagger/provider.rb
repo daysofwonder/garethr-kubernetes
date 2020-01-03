@@ -28,10 +28,14 @@ module PuppetX
 
         def self.prefetch(resources)
           instances.each do |prov|
-            if resource = resources[prov.name] # rubocop:disable Lint/AssignmentInCondition
+            if resource = find_puppet_resource(resources, prov)
               resource.provider = prov
             end
           end
+        end
+
+        def self.find_puppet_resource(resources, prov)
+          resources[prov.name] # rubocop:disable Lint/AssignmentInCondition
         end
 
         def self.hash_arrays(object)

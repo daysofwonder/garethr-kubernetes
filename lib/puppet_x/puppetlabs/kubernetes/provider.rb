@@ -9,6 +9,8 @@ module PuppetX
     module Kubernetes
       class Provider < PuppetX::Puppetlabs::Swagger::Provider
 
+        PUPPET_K8S_ANNOTATIONS="com.daysofwonder.puppet.resource-name".freeze.to_sym
+
         def self.inherited(subclass)
           subclass.confine :feature => :kubeclient
           super
@@ -76,13 +78,49 @@ module PuppetX
           noun + "es"
         end
 
+        # build the puppet resource name from the k8s resource name
+        def self.instance_name(instance)
+          annotations = (instance.metadata.annotations || {}).to_hash
+          # easy-peasy, we have it on hand
+          return annotations[PUPPET_K8S_ANNOTATIONS] if annotations.include?(PUPPET_K8S_ANNOTATIONS)
+          # not so easy, there's two possibilities, either try <namespace>::<name> or go
+          # with <name> alone
+          return [instance.metadata.namespace, instance.metadata.name].join('::') unless instance.metadata.namespace.nil? or instance.metadata.namespace == 'default'
+          instance.metadata.name
+        end
+
         def make_object(type, name, params)
           params[:metadata] = {} unless params.key?(:metadata)
           p = params.swagger_symbolize_keys
           object = Kubeclient::Resource.new(p)
-          object.metadata.name = name
-          object.metadata.namespace = namespace unless namespace.nil?
+          # two possibilities, 
+          # 1. the puppet name is `${k8s_namespace}::${k8s_name}`
+          # error if the md is not consistent
+          # 2. the puppet name is just a name, we then trust the metadata
+          # to be correct
+
+          k8s_name = puppet_to_k8s_name(name)
+          raise_on_metadata_discrepency(object.metadata, k8s_name)
+
+          object.metadata.name ||= k8s_name[:name]
+          if k8s_name.include?(:namespace)
+            object.metadata.namespace ||= k8s_name[:namespace]
+          else
+            # we don't know the namespace yet, it can either be the one specified
+            # or a no namespace resource
+            object.metadata.namespace = namespace unless namespace.nil?
+          end
+
+          annotate_k8s_object(object, name)
           object
+        end
+
+        def raise_on_metadata_discrepency(metadata, fqdn)
+          md = [metadata.namespace, metadata.name].compact
+          puppet_name = [fqdn[:namespace], fqdn[:name]].compact
+          if puppet_name.size == 2 && md.size == 2 && md != puppet_name
+            raise "Resource name (<namespace>::<name>) should match kubernetes metadata"
+          end
         end
 
         def create_instance_of(type, name, params)
@@ -183,7 +221,23 @@ module PuppetX
         def flush_instance_of(type, name, object, params)
           applicator = build_applicator(params)
           updated = apply_applicator(type, object, applicator)
+
+          # check that puppet name <namespace>::<name> matches
+          # metadata if any
+          if name.include?('::')
+            puppet_name = puppet_to_k8s_name(name)
+            raise_on_metadata_discrepency(object.metadata, puppet_name)
+          end
+
+          annotate_k8s_object(object, name)
           call("update_#{type}", updated)
+        end
+
+        # Keep puppet name in the k8s object so that we can later
+        # find what puppet resource it was coming from
+        def annotate_k8s_object(object, name)
+          object.metadata.annotations ||= {}
+          object.metadata.annotations[PUPPET_K8S_ANNOTATIONS] = name
         end
 
         def self.method_missing(method_sym, *arguments, &block)
@@ -191,11 +245,36 @@ module PuppetX
         end
 
         def destroy_instance_of(type, name)
-          call("delete_#{type}", name, namespace)
+          k8s_name = puppet_to_k8s_name(name)
+          call("delete_#{type}", k8s_name[:name], namespace)
         end
 
         def call(method, *object)
           self.class.call(method, *object)
+        end
+
+        def puppet_to_k8s_name(puppet_name)
+          (k8s_namespace, k8s_name) = puppet_name.split('::')
+          return {:name => k8s_namespace} if k8s_name.nil?
+          {:name => k8s_name, :namespace => k8s_namespace}
+        end
+
+        # used by the swagger provider to match an instance coming from k8s
+        # to an existing puppet resources
+        # we try to be clever by looking directly with the puppet resource name
+        # but also by the annotation, or a FQDN
+        def self.find_puppet_resource(resources, prov)
+          looking_for = [prov.name]
+          k8s_md = prov.get(:metadata)
+          if k8s_md != :absent
+            annotations = (k8s_md[:annotations] || {}).to_hash
+            looking_for << annotations[PUPPET_K8S_ANNOTATIONS] if annotations.include?(PUPPET_K8S_ANNOTATIONS)
+            looking_for << [k8s_md[:namespace], k8s_md[:name]].join('::')
+            looking_for << k8s_md[:name] # last resort
+          end
+          name = looking_for.compact.uniq.find { |n| resources.include?(n) }
+          return resources[name] unless name.nil?
+          nil
         end
 
         def namespace

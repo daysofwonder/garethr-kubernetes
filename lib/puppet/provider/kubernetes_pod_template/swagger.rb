@@ -12,7 +12,7 @@ Puppet::Type.type(:kubernetes_pod_template).provide(:swagger, :parent => PuppetX
   def self.instance_to_hash(instance)
     {
       ensure: :present,
-      name: instance.metadata.name,
+      name: instance_name(instance),
       metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
       template: instance.template.respond_to?(:to_hash) ? instance.template.to_hash : instance.template,
       object: instance,

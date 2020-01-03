@@ -12,7 +12,7 @@ Puppet::Type.type(:kubernetes_storage_class).provide(:swagger, :parent => Puppet
   def self.instance_to_hash(instance)
     {
       ensure: :present,
-      name: instance.metadata.name,
+      name: instance_name(instance),
       allow_volume_expansion: instance.allowVolumeExpansion.respond_to?(:to_hash) ? instance.allowVolumeExpansion.to_hash : instance.allowVolumeExpansion,
       allowed_topologies: instance.allowedTopologies.respond_to?(:to_hash) ? instance.allowedTopologies.to_hash : instance.allowedTopologies,
       metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
