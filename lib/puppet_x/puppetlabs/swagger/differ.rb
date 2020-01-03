@@ -44,7 +44,7 @@ module PuppetX
               after = newvalue.swagger_symbolize_keys.fixnumify
               diffs = Hashdiff.diff(before, after, :use_lcs => false)
               decorated = decorate_diff(before, diffs)
-              return "#{name} changed with diff: \n#{diffs}\n#{decorated}\n"
+              return "#{name} changed with diff: \n#{decorated}\n"
             end
           rescue Puppet::Error
             raise
