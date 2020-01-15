@@ -5,6 +5,7 @@ require 'puppet/util/network_device/kubernetes'
 class Puppet::Util::NetworkDevice::Kubernetes::Device
   attr_reader :kubeclient_config
   attr_reader :cluster_name
+  attr_reader :cluster_albsg
 
   def initialize(url, options = {})
     uri = URI.parse(url)
@@ -17,6 +18,9 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
       params = CGI.parse(uri.query)
       if Array(params['clustername']).flatten.size > 0
         @cluster_name = params['clustername'].first
+      end
+      if Array(params['clusteralbsg']).flatten.size > 0
+        @cluster_albsg = params['clusteralbsg'].first
       end
     end
 
@@ -49,6 +53,7 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
     {
       'role' => 'k8s',
       'clustername' => cluster_name,
+      'clusteralbsg' => cluster_albsg,
       'operatingsystem' => 'Ubuntu',
       'osfamily' => 'Debian',
       'operatingsystemrelease' => '16.04',
