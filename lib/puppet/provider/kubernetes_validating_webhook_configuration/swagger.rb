@@ -14,7 +14,7 @@ Puppet::Type.type(:kubernetes_validating_webhook_configuration).provide(:swagger
       ensure: :present,
       name: instance_name(instance),
       metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-      webhooks: instance.webhooks.respond_to?(:to_hash) ? instance.webhooks.to_hash : instance.webhooks,
+      webhooks: hash_arrays(instance.webhooks),
       object: instance,
     }
   end

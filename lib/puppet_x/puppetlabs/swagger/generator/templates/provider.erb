@@ -15,7 +15,11 @@ Puppet::Type.type(:<%= namespace %>_<%= name %>).provide(:swagger, :parent => Pu
       name: instance_name(instance),
 <% model['properties'].each do |property_name, details| -%>
 <% unless exclusions.include? property_name -%>
+<% if details['type'] == 'array' -%>
+      <%= property_name.swagger_to_snake_case %>: hash_arrays(instance.<%= property_name %>),
+<% else -%>
       <%= property_name.swagger_to_snake_case %>: instance.<%= property_name %>.respond_to?(:to_hash) ? instance.<%= property_name %>.to_hash : instance.<%= property_name %>,
+<% end -%>
 <% end -%>
 <% end -%>
       object: instance,

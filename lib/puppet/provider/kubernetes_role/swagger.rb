@@ -14,7 +14,7 @@ Puppet::Type.type(:kubernetes_role).provide(:swagger, :parent => PuppetX::Puppet
       ensure: :present,
       name: instance_name(instance),
       metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
-      rules: instance.rules.respond_to?(:to_hash) ? instance.rules.to_hash : instance.rules,
+      rules: hash_arrays(instance.rules),
       object: instance,
     }
   end

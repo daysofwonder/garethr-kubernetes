@@ -15,7 +15,7 @@ Puppet::Type.type(:kubernetes_cluster_role_binding).provide(:swagger, :parent =>
       name: instance_name(instance),
       metadata: instance.metadata.respond_to?(:to_hash) ? instance.metadata.to_hash : instance.metadata,
       role_ref: instance.roleRef.respond_to?(:to_hash) ? instance.roleRef.to_hash : instance.roleRef,
-      subjects: instance.subjects.respond_to?(:to_hash) ? instance.subjects.to_hash : instance.subjects,
+      subjects: hash_arrays(instance.subjects),
       object: instance,
     }
   end
