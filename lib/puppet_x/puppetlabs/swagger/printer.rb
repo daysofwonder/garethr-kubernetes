@@ -1,4 +1,6 @@
 
+require_relative "delete_prefix"
+
 module PuppetX
   module Puppetlabs
     module Swagger

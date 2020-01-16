@@ -5,6 +5,7 @@ require 'fileutils'
 require 'clamp'
 
 require_relative "case"
+require_relative "../delete_prefix"
 
 EXCLUDE_TYPES = []
 
