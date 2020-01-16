@@ -74,8 +74,8 @@ module PuppetX
 
         # this is a poor man pluralize, check ActiveSupport for a more general one
         def self.pluralize(noun)
-          return noun + "s" unless noun.end_with?('s')
           return noun.gsub(/y$/, 'ies') if noun.end_with?('y')
+          return noun + "s" unless noun.end_with?('s')
           noun + "es"
         end
 
