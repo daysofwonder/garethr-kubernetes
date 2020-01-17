@@ -11,13 +11,16 @@ module PuppetX
 
         def initialize(differences)
           @diffs = differences
+          # puts "diffs: #{differences}"
         end
 
         def format(o, level = 0, key = '')
           case o
           when Hash
+            # puts "format hash at #{key}"
             format_hash(o, level + 1, key)
           when Array
+            # puts "format array at #{key}"
             format_array(o, level + 1, key)
           else
             format_other(o, level + 1, key)
@@ -28,7 +31,8 @@ module PuppetX
           return '[]' if array.empty?
 
           data = (array + get_added_array_elements_at(key)).map.with_index do |item, idx|
-            item % [level, key + "[#{idx}]"]
+            # puts "format array element #{idx} at #{key}"
+            format(item, level, key + "[#{idx}]") # rubocob:disable Style/FormatString
           end
           indent = IDENT * level
           outdent = IDENT * (level - 1)
@@ -53,6 +57,7 @@ module PuppetX
             indent = IDENT * level
             outdent = IDENT * (level - 1)
             hash_op, newval = get_prefix(key)
+            # puts "key #{key} #{hash_op} #{newval}"
             outdent = if outdent.length <= hash_op.length
                         ''
                       else
@@ -81,7 +86,7 @@ module PuppetX
                                else
                                  indent[0..(indent.length - op.length - 1)]
                                end
-
+              # puts "helement: #{newkey} op: #{op} newval: #{newval}"
               arr << (correct_indent || indent) + colorize_op(op) + kv[0].to_s + ' => ' + format_op(op, newkey, kv[1], newval, level)
             end
             ["#{cond_indent}#{colorize_op(first_hash_op)}{\n", printable_hash.join(",\n"), "\n#{outdent}#{colorize_op(hash_op)}}"].join
@@ -93,7 +98,13 @@ module PuppetX
         end
 
         def get_prefix(key)
-          d = diffs.find { |diff| diff[1] == key || key.delete_prefix(diff[1]) != key }
+          # this finds all diffs whose key is a parent of `key`
+          d = diffs.find do |diff| 
+            # check diff[1] is a parent of key
+            ks = key.split('.')
+            ds = diff[1].split('.')
+            diff[1] == key || (ks.length >= ds.length && ks.zip(ds).drop_while { |a,b| a == b }.all? { |a,b| b == nil })
+          end
           return '' unless d
           [d[0] + ' ', d[3] || d[2]]
         end
@@ -109,7 +120,8 @@ module PuppetX
             d[0] == '+' && child_of(key, d[1])
           end
           return {} unless adds
-          adds.reduce({}) { |a, v| a.merge(v[1].delete_prefix(key + '.') => v[2]) }
+          # return all added hash below key, unless it is an array add
+          adds.reject { |d| d[1] =~ /\[\d+\]$/ }.reduce({}) { |a, v| a.merge(v[1].delete_prefix(key + '.') => v[2]) }
         end
 
         # check that b is direct child of a
@@ -119,9 +131,9 @@ module PuppetX
         end
 
         def format_op(op, key, oldval, newval, level)
-          oldval = oldval % [level, key]
+          oldval = format(oldval, level, key) # rubocob:disable Style/FormatString
           return oldval unless op == '~ '
-          newval = newval % [level, key]
+          newval = format(newval, level, key) # rubocob:disable Style/FormatString
           %(#{oldval} #{yellow('~>')} #{newval})
         end
 

@@ -10,6 +10,8 @@ module PuppetX
       module Differ
         include Puppet::Util::Diff
 
+        module_function
+
         def property_diff_with_lcs(current_value, newvalue)
           return "defined '#{name}'" if current_value == :absent
           return "undefined '#{name}'" if [newvalue].flatten.include?(:absent)
@@ -34,8 +36,10 @@ module PuppetX
           before = current_value.swagger_symbolize_keys.fixnumify
           after = newvalue.swagger_symbolize_keys.fixnumify
           diffs = Hashdiff.diff(before, after, use_lcs: false)
+          return "#{name} didn't change" if diffs.empty?
+
           decorated = decorate_diff(before, diffs)
-          return "#{name} changed with diff: \n#{decorated}\n"
+          return "#{name} changed with diff:\n#{decorated}\n"
         rescue Puppet::Error
           raise
         rescue => detail
