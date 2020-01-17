@@ -1,7 +1,6 @@
 require_relative 'swagger_symbolize_keys'
 require_relative 'fixnumify'
 
-
 module PuppetX
   module Puppetlabs
     module Swagger
@@ -12,7 +11,6 @@ module PuppetX
           do_compare(normalized_should, normalized_is)
         end
 
-        private
         def self.do_compare(normalized_should, normalized_is)
           klass = normalized_should.class
           if [String, 0.class, TrueClass, FalseClass, NilClass].include? klass
@@ -22,7 +20,7 @@ module PuppetX
               false
             else
               # We want to check that both arrays have the same elements regardless of their order
-              tests = normalized_is.collect do |is_value|
+              tests = normalized_is.map do |is_value|
                 normalized_should.lazy.reduce(false) do |m, should_value|
                   m || do_compare(should_value, is_value)
                 end
@@ -36,7 +34,7 @@ module PuppetX
               normalized_should.lazy.all? { |key, should_value| do_compare(should_value, normalized_is[key]) }
             end
           else
-           raise "Don't know how to compare object '#{normalized_should}' of class #{klass}"
+            raise "Don't know how to compare object '#{normalized_should}' of class #{klass}"
           end
         end
       end

@@ -1,1 +1,1 @@
-Puppet.features.add(:kubeclient, :libs => ["kubeclient"])
+Puppet.features.add(:kubeclient, libs: ['kubeclient'])

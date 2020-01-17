@@ -2,20 +2,20 @@ require 'puppet'
 require 'puppet/util/network_device'
 require 'puppet/util/network_device/kubernetes'
 
-class Puppet::Util::NetworkDevice::Kubernetes::Device
+module Puppet::Util::NetworkDevice::Kubernetes::Device # rubocop:disable Style/ClassAndModuleChildren
   attr_reader :kubeclient_config
   attr_reader :cluster_name
 
-  def initialize(url, options = {})
+  def initialize(url, _options = {})
     uri = URI.parse(url)
-    raise "Device url is not a file:// uri" unless uri.scheme == 'file'
-    raise "Device url doesn't exist" unless File.exists?(uri.path)
+    raise 'Device url is not a file:// uri' unless uri.scheme == 'file'
+    raise "Device url doesn't exist" unless File.exist?(uri.path)
     @kubeclient_config = uri.path
     @cluster_name = Puppet.settings[:certname]
     if uri.query
       require 'cgi'
       params = CGI.parse(uri.query)
-      if Array(params['clustername']).flatten.size > 0
+      unless Array(params['clustername']).flatten.empty?
         @cluster_name = params['clustername'].first
       end
     end
@@ -27,11 +27,10 @@ class Puppet::Util::NetworkDevice::Kubernetes::Device
     Facter.reset
     dirs = []
     Puppet.lookup(:current_environment).modules.each do |m|
-      if m.has_external_facts?
-        dir = m.plugin_fact_directory
-        Puppet.debug "Loading external facts from #{dir}"
-        dirs << dir
-      end
+      next unless m.has_external_facts?
+      dir = m.plugin_fact_directory
+      Puppet.debug "Loading external facts from #{dir}"
+      dirs << dir
     end
     # Add system external fact directory if it exists
     if FileTest.directory?(Puppet[:pluginfactdest])

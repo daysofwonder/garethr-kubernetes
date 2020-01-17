@@ -8,15 +8,13 @@ module PuppetX
   module Puppetlabs
     module Kubernetes
       class Provider < PuppetX::Puppetlabs::Swagger::Provider
-
-        PUPPET_K8S_ANNOTATIONS="com.daysofwonder.puppet.resource-name".freeze.to_sym
+        PUPPET_K8S_ANNOTATIONS = 'com.daysofwonder.puppet.resource-name'.freeze.to_sym
 
         def self.inherited(subclass)
-          subclass.confine :feature => :kubeclient
+          subclass.confine feature: :kubeclient
           super
         end
 
-        private
         def self.config
           @config ||= begin
             Puppet.initialize_settings unless Puppet[:confdir]
@@ -27,12 +25,12 @@ module PuppetX
         end
 
         def self.add_headers(subject)
-          subject.headers = subject.headers.merge({:content_type => :json, :accept => :json})
+          subject.headers = subject.headers.merge(content_type: :json, accept: :json)
           subject
         end
 
         def self.base_client(endpoint = '', version = '')
-          client = ::Kubeclient::Client.new(
+          ::Kubeclient::Client.new(
             "#{config.context.api_endpoint}#{endpoint}",
             "#{config.context.api_version}#{version}",
             ssl_options: config.context.ssl_options,
@@ -41,19 +39,19 @@ module PuppetX
         end
 
         def self.v1_client
-          self.base_client()
+          base_client
         end
 
         def self.beta_client
-          self.base_client('/apis/extensions', 'beta1')
+          base_client('/apis/extensions', 'beta1')
         end
 
         def self.rbac_client
-          self.base_client('/apis/rbac.authorization.k8s.io')
+          base_client('/apis/rbac.authorization.k8s.io')
         end
 
         def self.v1_app
-          self.base_client('/apis/apps')
+          base_client('/apis/apps')
         end
 
         def self.call(method, *object)
@@ -74,9 +72,9 @@ module PuppetX
 
         # this is a poor man pluralize, check ActiveSupport for a more general one
         def self.pluralize(noun)
-          return noun.gsub(/y$/, 'ies') if noun.end_with?('y')
-          return noun + "s" unless noun.end_with?('s')
-          noun + "es"
+          return noun.gsub(%r{y$}, 'ies') if noun.end_with?('y')
+          return noun + 's' unless noun.end_with?('s')
+          noun + 'es'
         end
 
         # build the puppet resource name from the k8s resource name
@@ -86,15 +84,15 @@ module PuppetX
           return annotations[PUPPET_K8S_ANNOTATIONS] if annotations.include?(PUPPET_K8S_ANNOTATIONS)
           # not so easy, there's two possibilities, either try <namespace>::<name> or go
           # with <name> alone
-          return [instance.metadata.namespace, instance.metadata.name].join('::') unless instance.metadata.namespace.nil? or instance.metadata.namespace == 'default'
+          return [instance.metadata.namespace, instance.metadata.name].join('::') unless instance.metadata.namespace.nil? || instance.metadata.namespace == 'default'
           instance.metadata.name
         end
 
-        def make_object(type, name, params)
+        def make_object(_type, name, params)
           params[:metadata] = {} unless params.key?(:metadata)
           p = params.swagger_symbolize_keys
           object = Kubeclient::Resource.new(p)
-          # two possibilities, 
+          # two possibilities,
           # 1. the puppet name is `${k8s_namespace}::${k8s_name}`
           # error if the md is not consistent
           # 2. the puppet name is just a name, we then trust the metadata
@@ -119,9 +117,7 @@ module PuppetX
         def raise_on_metadata_discrepency(metadata, fqdn)
           md = [metadata.namespace, metadata.name].compact
           puppet_name = [fqdn[:namespace], fqdn[:name]].compact
-          if puppet_name.size == 2 && md.size == 2 && md != puppet_name
-            raise "Resource name (<namespace>::<name>) should match kubernetes metadata"
-          end
+          raise 'Resource name (<namespace>::<name>) should match kubernetes metadata' if puppet_name.size == 2 && md.size == 2 && md != puppet_name
         end
 
         def create_instance_of(type, name, params)
@@ -166,43 +162,41 @@ module PuppetX
           end
 
           def create_parent_setter(obj, attr)
-            lambda do |value|
+            ->(value) do
               obj.send("#{attr}=", value)
             end
           end
         end
 
-
         def ensure_value_at_path(object, path, value)
-          path.each_with_index.inject(ObjectSetter.new(object)) { |setter, (attr, index)|
+          path.each_with_index.reduce(ObjectSetter.new(object)) do |setter, (attr, index)|
             if index == (path.size - 1)
               setter.set(attr, value)
             else
               setter.get(attr)
             end
-          }
+          end
         end
 
         def build_applicator(input)
           data = []
-          input.each do |key,value|
+          input.each do |key, value|
             if value.respond_to? :each
-              value.each do |inner_key,inner_value|
+              value.each do |inner_key, inner_value|
                 if [Integer, String].include? inner_value.class
-                  data << [[key,inner_key], inner_value]
+                  data << [[key, inner_key], inner_value]
                 end
                 if inner_value.class == Array
-                  inner_value.each_with_index do |item,index|
-                    item.each do |k,v|
+                  inner_value.each_with_index do |item, index|
+                    item.each do |k, v|
                       data << [[key, inner_key, index, k], v]
                     end
                   end
                 end
-                if inner_value.class == Hash
-                  applicator = build_applicator(inner_value)
-                  applicator.each do |k,v|
-                    data << [[key, inner_key, k].flatten, v]
-                  end
+                next unless inner_value.class == Hash
+                applicator = build_applicator(inner_value)
+                applicator.each do |k, v|
+                  data << [[key, inner_key, k].flatten, v]
                 end
               end
             else
@@ -212,7 +206,7 @@ module PuppetX
           data
         end
 
-        def apply_applicator(type, object, changes)
+        def apply_applicator(_type, object, changes)
           changes.each do |path, value|
             ensure_value_at_path(object, path, value)
           end
@@ -241,9 +235,11 @@ module PuppetX
           object.metadata.annotations[PUPPET_K8S_ANNOTATIONS] = name
         end
 
+        # rubocop:disable Style/MethodMissing
         def self.method_missing(method_sym, *arguments, &block)
           call(method_sym, *arguments, &block)
         end
+        # rubocop:enable Style/MethodMissing
 
         def destroy_instance_of(type, name)
           k8s_name = puppet_to_k8s_name(name)
@@ -256,8 +252,8 @@ module PuppetX
 
         def puppet_to_k8s_name(puppet_name)
           (k8s_namespace, k8s_name) = puppet_name.split('::')
-          return {:name => k8s_namespace} if k8s_name.nil?
-          {:name => k8s_name, :namespace => k8s_namespace}
+          return { name: k8s_namespace } if k8s_name.nil?
+          { name: k8s_name, namespace: k8s_namespace }
         end
 
         # used by the swagger provider to match an instance coming from k8s
@@ -279,7 +275,7 @@ module PuppetX
         end
 
         def namespace
-          if self.metadata == :absent
+          if metadata == :absent
             # This means the resource doesn't exist already
             if resource[:metadata]
               resource[:metadata]['namespace']
@@ -291,7 +287,7 @@ module PuppetX
           else
             # here we're reading from the API so we don't need to
             # provide any default values
-            self.metadata[:namespace] || nil
+            metadata[:namespace] || nil
           end
         end
       end

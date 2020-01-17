@@ -8,10 +8,10 @@ def desymbolize(it)
   when Symbol
     it.to_s
   when Array
-    it.collect { |x| desymbolize x }
+    it.map { |x| desymbolize x }
   when Hash
     result = {}
-    it.each do |k,v|
+    it.each do |k, v|
       result[desymbolize(k)] = desymbolize v
     end
     result
@@ -23,9 +23,9 @@ end
 Puppet::Face.define(:kubernetes, '0.1.0') do
   copyright 'Puppet', 2017
   license   'Apache 2 license'
-  summary "Interact with Kubernetes from the Puppet CLI"
+  summary 'Interact with Kubernetes from the Puppet CLI'
   action :convert do
-    summary "Convert a specified kubernetes YAML file into Puppet"
+    summary 'Convert a specified kubernetes YAML file into Puppet'
     description <<-DESC
       The Puppet Kubernetes module allows for managing resources
       (like pods, services and replication controllers) in Kubernetes
@@ -48,13 +48,12 @@ Puppet::Face.define(:kubernetes, '0.1.0') do
     EXAMPLE
 
     when_invoked do |file_name, options|
-      fail "#{file_name} does not exist" unless File.file?(file_name)
+      raise "#{file_name} does not exist" unless File.file?(file_name)
 
-      YAML.load_stream(File.open(file_name)).collect do |data|
-
-        resource_name = data['kind'].
-          gsub(/([a-z\d])([A-Z])/,'\1_\2').
-          downcase
+      YAML.load_stream(File.open(file_name)).map do |data|
+        resource_name = data['kind']
+                        .gsub(%r{([a-z\d])([A-Z])}, '\1_\2')
+                        .downcase
 
         template = <<-TEMPLATE
 kubernetes_<%= resource_name %> { '<%= data['metadata']['name'] %>':
@@ -73,20 +72,19 @@ kubernetes_<%= resource_name %> { '<%= data['metadata']['name'] %>':
         TEMPLATE
 
         renderer = ERB.new(template)
-        renderer.result(binding).gsub(/^$\n/, '')
+        renderer.result(binding).gsub(%r{^$\n}, '')
       end
     end
 
-    when_rendering :console do |return_value, file, options|
+    when_rendering :console do |return_value, _file, _options|
       return_value
     end
   end
 
-
   action :compile do
     default
 
-    summary "Convert a specified kubernetes YAML file into Puppet"
+    summary 'Convert a specified kubernetes YAML file into Puppet'
     description <<-DESC
       The Puppet Kubernetes module allows for managing resources
       (like pods, services and replication controllers) in Kubernetes
@@ -101,36 +99,35 @@ kubernetes_<%= resource_name %> { '<%= data['metadata']['name'] %>':
       $ puppet kubernetes compile --manifest some-puppet-file.pp
     EXAMPLE
 
-    when_invoked do |options|
+    when_invoked do |_options|
       # We reset the logger to prevent the default performance
       # data being output. Thanks to Felix Frank for this trick.
-      if Puppet[:log_level] == "notice"
-        Puppet[:log_level] = "warning"
+      if Puppet[:log_level] == 'notice'
+        Puppet[:log_level] = 'warning'
         reset_log_level = true
       end
-      catalog = Puppet::Face[:catalog, "0.0"].find
+      catalog = Puppet::Face[:catalog, '0.0'].find
       if reset_log_level
-        Puppet[:log_level] = "notice"
+        Puppet[:log_level] = 'notice'
       end
       resources = catalog.to_ral.relationship_graph.vertices
 
-      resources.collect do |res|
+      resources.map { |res|
         type, kind = res.type.to_s.split('_', 2)
-        if type == 'kubernetes'
-          resource = res.to_hash
-          resource[:metadata][:name] = resource[:name]
-          resource.tap { |item|
-              [:loglevel, :ensure, :name].each { |k| item.delete k }
-          }
-          kind = kind.split('_').collect(&:capitalize).join
-          resource[:kind] = kind
-          desymbolize(resource) 
+        next unless type == 'kubernetes'
+        resource = res.to_hash
+        resource[:metadata][:name] = resource[:name]
+        resource.tap do |item|
+          [:loglevel, :ensure, :name].each { |k| item.delete k }
         end
-      end.compact
+        kind = kind.split('_').map(&:capitalize).join
+        resource[:kind] = kind
+        desymbolize(resource)
+      }.compact
     end
 
     when_rendering :console do |return_value|
-      return_value.collect do |res|
+      return_value.map do |res|
         res.to_yaml
       end
     end
