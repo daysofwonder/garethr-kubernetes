@@ -470,15 +470,156 @@ describe PuppetX::Puppetlabs::Swagger::Differ do
                   }
                 ],
               [green]+ [reset]volumes => [
+                [green]+ [reset]{
+                  [green]+ [reset]name => "vol1",
+                  [green]+ [reset]path => "/mnt/vol1"
+                [green]+ [reset]}
+              [green]+ [reset]]
+              }
+            ]
+          }
+        }
+      }
+    OUTPUT
+    expect(property_diff_with_hashdiff(a, b)).to eq(colorized(expected))
+  end
+
+
+  it 'formats when remove a sub hash' do
+    b = {
+        :template => {
+          :metadata => {
+            :name => 'hello-world',
+            :namespace => 'default',
+          },
+          :spec => {
+            :containers => [{
+              :name  => 'trucmuch',
+              :image => 'bidule',
+              :env => [
+                {
+                  'name' => 'bidule2',
+                  'value' => 'machin3'
+                }
+              ]
+            }]
+          }
+        }
+      }
+
+
+    expected = <<~OUTPUT
+      property changed with diff:
+      {
+        template => {
+          metadata => {
+            name => "hello-world",
+            namespace => "default",
+          [red]- [reset]labels => {
+            [red]- [reset]app => "hello-world"
+          [red]- [reset]}
+          },
+          spec => {
+            containers => [
+              {
+                name => "trucmuch",
+                image => "bidule",
+                env => [
                   {
-                    name => "vol1",
-                    path => "/mnt/vol1"
+                    name => "bidule2",
+                    value => "machin3"
                   }
                 ]
               }
             ]
           }
         }
+      }
+    OUTPUT
+    expect(property_diff_with_hashdiff(a, b)).to eq(colorized(expected))
+  end
+
+  it 'formats when remove an array element' do
+    b = {
+        :template => {
+          :metadata => {
+            :name => 'hello-world',
+            :namespace => 'default',
+            :labels => {
+              :'app' => 'hello-world'
+            },
+          },
+          :spec => {
+            :containers => [{
+              :name  => 'trucmuch',
+              :image => 'bidule',
+              :env => [
+              ]
+            }]
+          }
+        }
+      }
+
+
+    expected = <<~OUTPUT
+      property changed with diff:
+      {
+        template => {
+          metadata => {
+            name => "hello-world",
+            namespace => "default",
+            labels => {
+              app => "hello-world"
+            }
+          },
+          spec => {
+            containers => [
+              {
+                name => "trucmuch",
+                image => "bidule",
+                env => [
+                [red]- [reset]{
+                  [red]- [reset]name => "bidule2",
+                  [red]- [reset]value => "machin3"
+                [red]- [reset]}
+                ]
+              }
+            ]
+          }
+        }
+      }
+    OUTPUT
+    expect(property_diff_with_hashdiff(a, b)).to eq(colorized(expected))
+  end
+
+  it 'formats when remove an array element' do
+    a = {
+      :template => {
+        :spec => {
+          :containers => [
+            {
+              :name => 'hello-world'
+            }
+          ]
+        }
+      }
+    }
+    b = {
+    }
+
+
+    expected = <<~OUTPUT
+      property changed with diff:
+      {
+      [red]- [reset]template => {
+        [red]- [reset]spec => {
+          [red]- [reset]containers => [
+            [red]- [reset]{
+              [red]- [reset]name => "hello-world"
+            [red]- [reset]}
+          [red]- [reset]]
+        [red]- [reset]}
+      [red]- [reset]}
       }
     OUTPUT
     expect(property_diff_with_hashdiff(a, b)).to eq(colorized(expected))

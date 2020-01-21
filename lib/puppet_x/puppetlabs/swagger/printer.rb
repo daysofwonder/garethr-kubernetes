@@ -11,16 +11,17 @@ module PuppetX
 
         def initialize(differences)
           @diffs = differences
-          # puts "diffs: #{differences}"
+          @debug = true
+          puts "diffs: #{differences}" if @debug
         end
 
         def format(o, level = 0, key = '')
           case o
           when Hash
-            # puts "format hash at #{key}"
+            puts "format hash at #{key}" if @debug
             format_hash(o, level + 1, key)
           when Array
-            # puts "format array at #{key}"
+            puts "format array at #{key}" if @debug
             format_array(o, level + 1, key)
           else
             format_other(o, level + 1, key)
@@ -31,12 +32,13 @@ module PuppetX
           return '[]' if array.empty?
 
           data = (array + get_added_array_elements_at(key)).map.with_index do |item, idx|
-            # puts "format array element #{idx} at #{key}"
+            puts "format array element #{idx} at #{key}" if @debug
             format(item, level, key + "[#{idx}]") # rubocob:disable Style/FormatString
           end
           indent = IDENT * level
-          outdent = IDENT * (level - 1)
-          %([\n#{indent}#{data.join(",\n")}\n#{outdent}])
+          hash_op, newval = get_prefix(key)
+          outdent = hash_op == '' ? IDENT * (level - 1) : IDENT * (level - 2)
+          %([\n#{data.join(",\n")}\n#{outdent}#{colorize_op(hash_op)}])
         end
 
         def format_other(o, _level, _key)
@@ -57,7 +59,7 @@ module PuppetX
             indent = IDENT * level
             outdent = IDENT * (level - 1)
             hash_op, newval = get_prefix(key)
-            # puts "key #{key} #{hash_op} #{newval}"
+            puts "key #{key} #{hash_op} #{newval}" if @debug
             outdent = if outdent.length <= hash_op.length
                         ''
                       else
@@ -67,7 +69,7 @@ module PuppetX
             first_hash_op = hash_op
             # indent hash members of array
             cond_indent = ''
-            if key =~ %r{\[[1-9]\d*\]$}
+            if key =~ %r{\[[0-9]\d*\]$}
               if indent.length > first_hash_op.length
                 cond_indent = outdent[0..(indent.length - first_hash_op.length - 1)]
               end
@@ -75,7 +77,7 @@ module PuppetX
               first_hash_op = ''
             end
 
-            # puts "hash: #{key}, op:'#{first_hash_op}' ci:'#{cond_indent.length}' indent:'#{indent.length}'"
+            puts "hash: #{key}, op:'#{first_hash_op}' ci:'#{cond_indent.length}' indent:'#{indent.length}'" if @debug
             additions = get_added_hash_elements_at(key)
             printable_hash = h.merge(additions).reduce([]) do |arr, kv|
               # check key path is affected
@@ -86,7 +88,7 @@ module PuppetX
                                else
                                  indent[0..(indent.length - op.length - 1)]
                                end
-              # puts "helement: #{newkey} op: #{op} newval: #{newval}"
+              puts "helement: #{newkey} op: #{op} newval: #{newval}" if @debug
               arr << (correct_indent || indent) + colorize_op(op) + kv[0].to_s + ' => ' + format_op(op, newkey, kv[1], newval, level)
             end
             ["#{cond_indent}#{colorize_op(first_hash_op)}{\n", printable_hash.join(",\n"), "\n#{outdent}#{colorize_op(hash_op)}}"].join
@@ -103,8 +105,9 @@ module PuppetX
             # check diff[1] is a parent of key
             ks = key.split('.')
             ds = diff[1].split('.')
-            diff[1] == key || (ks.length >= ds.length && ks.zip(ds).drop_while { |a,b| a == b }.all? { |a,b| b == nil })
+            diff[1] == key || (ks.length >= ds.length && ks.zip(ds).drop_while { |a,b| a == b }.all? { |a,b| b == nil || a.sub(/\[\d+\]$/, '') == b })
           end
+          puts "get_prefix: #{key} -> #{d}" if @debug
           return '' unless d
           [d[0] + ' ', d[3] || d[2]]
         end

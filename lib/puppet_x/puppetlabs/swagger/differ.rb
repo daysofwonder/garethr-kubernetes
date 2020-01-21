@@ -36,6 +36,9 @@ module PuppetX
           before = current_value.swagger_symbolize_keys.fixnumify
           after = newvalue.swagger_symbolize_keys.fixnumify
           diffs = Hashdiff.diff(before, after, use_lcs: false)
+          puts "before: #{before.inspect}"
+          puts "after: #{after.inspect}"
+          puts "diffs: #{diffs}"
           return "#{name} didn't change" if diffs.empty?
 
           decorated = decorate_diff(before, diffs)
