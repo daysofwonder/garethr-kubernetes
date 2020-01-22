@@ -11,7 +11,7 @@ module PuppetX
 
         def initialize(differences)
           @diffs = differences
-          @debug = true
+          @debug = false
           puts "diffs: #{differences}" if @debug
         end
 
