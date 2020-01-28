@@ -2,7 +2,7 @@ require 'puppet'
 require 'puppet/util/network_device'
 require 'puppet/util/network_device/kubernetes'
 
-module Puppet::Util::NetworkDevice::Kubernetes::Device # rubocop:disable Style/ClassAndModuleChildren
+class Puppet::Util::NetworkDevice::Kubernetes::Device # rubocop:disable Style/ClassAndModuleChildren
   attr_reader :kubeclient_config
   attr_reader :cluster_name
 
