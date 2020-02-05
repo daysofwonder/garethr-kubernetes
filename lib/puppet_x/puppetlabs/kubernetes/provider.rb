@@ -51,7 +51,7 @@ module PuppetX
         end
 
         def self.policy_client
-          base_client('/apis/policy', 'v1beta1')
+          base_client('/apis/policy', 'beta1')
         end
 
         def self.v1_app
