@@ -50,6 +50,10 @@ module PuppetX
           base_client('/apis/rbac.authorization.k8s.io')
         end
 
+        def self.policy_client
+          base_client('/apis/policy', 'v1beta1')
+        end
+
         def self.v1_app
           base_client('/apis/apps')
         end
@@ -59,6 +63,8 @@ module PuppetX
             v1_client.send(method, *object)
           elsif v1_app.respond_to?(method)
             v1_app.send(method, *object)
+          elsif policy_client.respond_to?(method)
+            policy_client.send(method, *object)
           elsif beta_client.respond_to?(method)
             beta_client.send(method, *object)
           else
