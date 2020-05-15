@@ -151,6 +151,10 @@ module PuppetX
                 @object = []
                 @parent_setter.call(@object)
               end
+              unless @object.respond_to?(:at)
+                @object = []
+                @parent_setter.call(@object)
+              end
               if @object.send(:at, attr).nil?
                 @object << {}
               end
